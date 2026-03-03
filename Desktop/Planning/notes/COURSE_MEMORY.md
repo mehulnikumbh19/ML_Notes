@@ -72,8 +72,8 @@
 
 ## What’s Done / What’s Next
 
-- **Done:** Phase A; Phase B (i=1–6): 01–06_lecture + labs 01–06 (Lab 6 = placeholder).
-- **Next:** Phase C (Assignment walkthrough); Phase D (Exam 1 study guide, Python templates, code drills).
+- **Done:** Phase A; Phase B (i=1–6): 01–06_lecture + labs 01–06 (Lab 6 = placeholder); Phase C (assignment1_car_walkthrough); Phase D (07_exam1_master_study_guide, 08_python_patterns_and_templates, practice/exam1_code_drills).
+- **Next:** Add exam review / syllabus when available; refine study guide and drills.
 
 ---
 **Rule:** Always commit and push to the ML_Notes repo after completing each chunk/milestone.

@@ -52,9 +52,9 @@
 
 | Output | Source |
 |--------|--------|
-| 07_exam1_master_study_guide.md | User-specified concepts + lecture notes (when added) + exam review (when provided) |
+| 07_exam1_master_study_guide.md | Lectures 1–6, Labs 1–5, Assignment 1; exam review (add when provided) |
 | 08_python_patterns_and_templates.md | Lab 1–5 + Assignment 1 code patterns |
-| practice/exam1_code_drills.md | Lab workflows + Assignment 1 patterns |
+| practice/exam1_code_drills.md | Lab workflows + Assignment 1 patterns; code prompts + answer keys |
 
 ---
 
