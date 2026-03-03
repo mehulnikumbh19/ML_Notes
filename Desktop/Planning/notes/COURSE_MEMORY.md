@@ -48,6 +48,8 @@
 
 ## Code Templates (compact)
 
+- **Missing:** `df.isnull().sum()`; **fill categorical:** `df.fillna('None')`
+- **Viz:** histplot (numeric dist), boxplot (spread/outliers), countplot (categorical), scatter (2 numerics), pairplot (many numerics); boxplot by group: `sns.boxplot(x='num', y='cat', data=df)` or `df.boxplot(column='num', by='cat')`
 - **Split:** `X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)`
 - **DT:** `DecisionTreeClassifier(criterion='entropy', max_depth=3, random_state=1)`
 - **NB:** (GaussianNB / MultinomialNB as taught — to be added from Lecture 4.)
@@ -58,6 +60,7 @@
 
 ## Common Pitfalls
 
+- **fillna('None')** on numeric column → converts to object; use only for categorical.
 - Using accuracy only when data is imbalanced.
 - Forgetting to scale for KNN.
 - Evaluating on training data instead of test for generalization.
@@ -67,8 +70,10 @@
 
 ## What’s Done / What’s Next
 
-- **Done:** Phase A; Phase B (i=1): 01_lecture1_intro.md, labs/01_lab1_walkthrough.md.
-- **Next:** Phase B i=2–6: 02_lecture2 through 06_lecture6 + labs 02–06 (Lab 6 = placeholder).
+- **Done:** Phase A; Phase B (i=1,2): 01–02_lecture + labs 01–02.
+- **Next:** Phase B i=3–6: 03_lecture3 through 06_lecture6 + labs 03–06 (Lab 6 = placeholder).
 
 ---
+**Rule:** Always commit and push to the ML_Notes repo after completing each chunk/milestone.
+
 *Update this file at the end of each milestone; paste into new chat when context is large.*
