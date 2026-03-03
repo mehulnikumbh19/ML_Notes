@@ -13,7 +13,7 @@
 - **Entropy:** Impurity measure for split criterion in trees.
 - **Naive Bayes:** Probabilistic classifier; assumes feature independence.
 - **KNN:** Classify by majority vote of K nearest neighbors; requires scaling.
-- **Overfitting:** Good on train, poor on test. **Generalization:** Good on test.
+- **Overfitting:** Good on train, poor on test (e.g., K=1, deep DT). **Underfitting:** Poor on both (e.g., very large K). **Generalization:** Good on test.
 
 ---
 
@@ -23,7 +23,9 @@
 - **Precision:** TP / (TP + FP)
 - **Recall:** TP / (TP + FN)
 - **F1:** 2 × (Precision × Recall) / (Precision + Recall)
-- *Entropy/Bayes/KNN distance:* To be filled from lecture notes (Lectures 3–5).
+- **Entropy:** H = −Σ p_i log₂(p_i) over classes (lower = purer)
+- **Bayes:** P(Class|X) ∝ P(X|Class) × P(Class); Naive: P(X|Class) ≈ ∏ P(x_i|Class)
+- **Euclidean (KNN):** d(x,y) = √(Σ(x_i − y_i)²); scale features first
 
 ---
 
@@ -52,7 +54,7 @@
 - **Viz:** histplot (numeric dist), boxplot (spread/outliers), countplot (categorical), scatter (2 numerics), pairplot (many numerics); boxplot by group: `sns.boxplot(x='num', y='cat', data=df)` or `df.boxplot(column='num', by='cat')`
 - **Split:** `X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)`
 - **DT:** `DecisionTreeClassifier(criterion='entropy', max_depth=3, random_state=1)`
-- **NB:** (GaussianNB / MultinomialNB as taught — to be added from Lecture 4.)
+- **NB:** `MultinomialNB()` for discrete/counts; `GaussianNB()` for continuous
 - **KNN:** Scale first; `KNeighborsClassifier(n_neighbors=5)` (or as in lab).
 - **Metrics:** `accuracy_score`, `precision_score`, `recall_score`, `f1_score`, `classification_report`, `ConfusionMatrixDisplay`.
 
@@ -70,8 +72,8 @@
 
 ## What’s Done / What’s Next
 
-- **Done:** Phase A; Phase B (i=1,2): 01–02_lecture + labs 01–02.
-- **Next:** Phase B i=3–6: 03_lecture3 through 06_lecture6 + labs 03–06 (Lab 6 = placeholder).
+- **Done:** Phase A; Phase B (i=1–6): 01–06_lecture + labs 01–06 (Lab 6 = placeholder).
+- **Next:** Phase C (Assignment walkthrough); Phase D (Exam 1 study guide, Python templates, code drills).
 
 ---
 **Rule:** Always commit and push to the ML_Notes repo after completing each chunk/milestone.
