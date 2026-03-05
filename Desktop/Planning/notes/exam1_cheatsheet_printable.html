@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>IS 670 Exam 1 Cheat Sheet</title>
+<style>
+  @page { size: letter; margin: 0.3in; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+    font-size: 6.5pt;
+    line-height: 1.25;
+    color: #111;
+    columns: 3;
+    column-gap: 8px;
+    padding: 0.3in;
+  }
+  h1 {
+    column-span: all;
+    text-align: center;
+    font-size: 10pt;
+    margin-bottom: 4px;
+    border-bottom: 1.5px solid #000;
+    padding-bottom: 2px;
+  }
+  h2 {
+    font-size: 7.5pt;
+    background: #222;
+    color: #fff;
+    padding: 1px 4px;
+    margin: 4px 0 2px 0;
+    break-inside: avoid;
+  }
+  h3 {
+    font-size: 6.8pt;
+    border-bottom: 0.5px solid #888;
+    margin: 3px 0 1px 0;
+    break-inside: avoid;
+  }
+  p, li { margin-bottom: 1px; }
+  ul { padding-left: 10px; list-style: disc; }
+  code {
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 6pt;
+    background: #eee;
+    padding: 0 1px;
+    border-radius: 1px;
+  }
+  pre {
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 5.8pt;
+    background: #f4f4f4;
+    border: 0.5px solid #ccc;
+    padding: 2px 3px;
+    margin: 1px 0 2px 0;
+    white-space: pre-wrap;
+    break-inside: avoid;
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 1px 0 2px 0;
+    break-inside: avoid;
+  }
+  th, td {
+    border: 0.5px solid #999;
+    padding: 1px 2px;
+    font-size: 6pt;
+    text-align: center;
+  }
+  th { background: #ddd; font-weight: bold; }
+  .formula { font-style: italic; }
+  .warn { color: #b00; font-weight: bold; }
+  section { break-inside: avoid; }
+</style>
+</head>
+<body>
+
+<h1>IS 670 — Exam 1 Cheat Sheet (One Page)</h1>
+
+<section>
+<h2>DATA &amp; PREPROCESSING</h2>
+<ul>
+  <li><b>Load:</b> <code>df = pd.read_csv('path.csv')</code></li>
+  <li><b>Inspect:</b> <code>df.shape</code>, <code>df.head()</code>, <code>df.tail()</code>, <code>df.columns</code></li>
+  <li><b>Missing:</b> <code>df.isnull().sum()</code> → count per column</li>
+  <li><b>Fill (categorical):</b> <code>df = df.fillna('None')</code> — <span class="warn">NOT for numeric cols</span></li>
+  <li><b>One-hot encode:</b> <code>pd.get_dummies(df, columns=[...], drop_first=True, dtype=int)</code></li>
+  <li><b>Define X, y:</b> <code>X = df.drop('Target', axis=1)</code>; <code>y = df['Target']</code></li>
+</ul>
+</section>
+
+<section>
+<h2>TRAIN / TEST SPLIT</h2>
+<pre>X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.3, random_state=0)</pre>
+<ul>
+  <li>Fit on <b>train</b>; evaluate on <b>test</b> only → measures <b>generalization</b></li>
+  <li><span class="warn">Never evaluate only on training data</span></li>
+</ul>
+</section>
+
+<section>
+<h2>DECISION TREE</h2>
+<ul>
+  <li><b>Idea:</b> Flowchart of yes/no questions on features; leaves = predicted class</li>
+  <li><b>Entropy:</b> H = −Σ pᵢ log₂(pᵢ) — measures impurity; 0 = pure, max = mixed</li>
+  <li>Tree picks splits that <b>reduce entropy most</b> (maximize information gain)</li>
+  <li><b>max_depth:</b> Limits tree depth; smaller = less overfitting</li>
+  <li><b>criterion:</b> <code>'entropy'</code> or <code>'gini'</code></li>
+</ul>
+<pre>model = DecisionTreeClassifier(criterion='entropy',
+    max_depth=3, random_state=1)
+model.fit(X_train, y_train)
+y_pred = model.predict(X_test)</pre>
+</section>
+
+<section>
+<h2>NAIVE BAYES</h2>
+<ul>
+  <li><b>Bayes:</b> P(class|features) ∝ P(class) × P(f₁|class) × P(f₂|class) × …</li>
+  <li><b>"Naive"</b> = assumes features are <b>independent</b> given class</li>
+  <li>Fast; few parameters; no scaling needed</li>
+  <li><b>GaussianNB</b> for continuous; <b>MultinomialNB</b> for counts</li>
+</ul>
+<pre>from sklearn.naive_bayes import GaussianNB
+model = GaussianNB()
+model.fit(X_train, y_train)
+y_pred = model.predict(X_test)</pre>
+</section>
+
+<section>
+<h2>KNN (K-NEAREST NEIGHBORS)</h2>
+<ul>
+  <li><b>Idea:</b> Find K closest training points by distance → <b>majority vote</b></li>
+  <li><span class="warn">MUST SCALE</span> features first (distance-based)</li>
+  <li>Small K (e.g. 1) → overfitting; Large K → smoother boundary</li>
+  <li>Odd K avoids ties; too large K → underfitting</li>
+</ul>
+<pre>from sklearn.preprocessing import StandardScaler
+scaler = StandardScaler()
+X_train_s = scaler.fit_transform(X_train)
+X_test_s = scaler.transform(X_test)  # transform only!
+
+from sklearn.neighbors import KNeighborsClassifier
+model = KNeighborsClassifier(n_neighbors=5)
+model.fit(X_train_s, y_train)
+y_pred = model.predict(X_test_s)</pre>
+</section>
+
+<section>
+<h2>CONFUSION MATRIX</h2>
+<table>
+  <tr><th></th><th>Pred 0 (Neg)</th><th>Pred 1 (Pos)</th></tr>
+  <tr><th>Actual 0</th><td><b>TN</b></td><td>FP (false alarm)</td></tr>
+  <tr><th>Actual 1</th><td>FN (missed)</td><td><b>TP</b></td></tr>
+</table>
+<pre>confusion_matrix(y_true, y_pred)   # actual first!
+ConfusionMatrixDisplay.from_predictions(
+    y_test, y_pred).plot()</pre>
+</section>
+
+<section>
+<h2>METRICS</h2>
+<table>
+  <tr><th>Metric</th><th>Formula</th><th>Meaning</th></tr>
+  <tr><td><b>Accuracy</b></td><td>(TP+TN)/total</td><td>% correct overall</td></tr>
+  <tr><td><b>Precision</b></td><td>TP/(TP+FP)</td><td>Pred pos → how many right</td></tr>
+  <tr><td><b>Recall</b></td><td>TP/(TP+FN)</td><td>Actual pos → how many found</td></tr>
+  <tr><td><b>F1</b></td><td>2PR/(P+R)</td><td>Balance P &amp; R</td></tr>
+  <tr><td><b>AUC</b></td><td>Area under ROC</td><td>Ranking; 0.5=random, 1=perfect</td></tr>
+</table>
+<ul>
+  <li><span class="warn">Imbalanced data → don't rely on accuracy alone; use P, R, F1</span></li>
+</ul>
+<pre>print(classification_report(y_test, y_pred))
+accuracy_score(y_test, y_pred)
+precision_score(y_test, y_pred)
+recall_score(y_test, y_pred)
+f1_score(y_test, y_pred)
+roc_auc_score(y_test, model.predict_proba(X_test)[:,1])</pre>
+</section>
+
+<section>
+<h2>VISUALIZATION</h2>
+<ul>
+  <li><b>Numeric dist:</b> <code>sns.histplot(x='col', data=df)</code></li>
+  <li><b>Outliers:</b> <code>sns.boxplot(x='col', data=df)</code></li>
+  <li><b>Categorical:</b> <code>sns.countplot(x='col', data=df)</code></li>
+  <li><b>2 numerics:</b> <code>sns.scatterplot(x='a', y='b', data=df)</code></li>
+  <li><b>By group:</b> <code>sns.boxplot(x='num', y='cat', data=df)</code></li>
+  <li><b>Pair plot:</b> <code>sns.pairplot(data=df)</code></li>
+  <li><b>Decision tree viz:</b> <code>tree.plot_tree(model, filled=True)</code></li>
+</ul>
+</section>
+
+<section>
+<h2>OVERFITTING vs GENERALIZATION</h2>
+<ul>
+  <li><b>Overfitting:</b> Great on train, poor on test (memorizing noise)</li>
+  <li><b>Generalization:</b> Good on unseen (test) data</li>
+  <li><b>Fix DT:</b> Reduce max_depth / prune</li>
+  <li><b>Fix KNN:</b> Increase K (smooths boundary)</li>
+  <li>Very deep tree or K=1 → overfitting</li>
+</ul>
+</section>
+
+<section>
+<h2>WHEN TO USE WHICH MODEL</h2>
+<table>
+  <tr><th></th><th>DT</th><th>NB</th><th>KNN</th></tr>
+  <tr><td>Interpretable</td><td>✓✓</td><td>✓</td><td>✗</td></tr>
+  <tr><td>Needs scaling</td><td>No</td><td>No</td><td><b>Yes!</b></td></tr>
+  <tr><td>Speed (predict)</td><td>Fast</td><td>Fast</td><td>Slow (large data)</td></tr>
+  <tr><td>Tune</td><td>max_depth</td><td>—</td><td>K</td></tr>
+  <tr><td>Overfits when</td><td>Deep</td><td>Rarely</td><td>K=1</td></tr>
+</table>
+</section>
+
+<section>
+<h2>TOP PITFALLS</h2>
+<ul>
+  <li><span class="warn">Accuracy alone + imbalanced data = misleading</span></li>
+  <li><span class="warn">KNN without scaling = wrong distances</span></li>
+  <li><span class="warn">Evaluate on train instead of test = overly optimistic</span></li>
+  <li><span class="warn">fillna('None') on numeric col = converts to object</span></li>
+  <li><code>confusion_matrix(y_true, y_pred)</code> — actual first, predicted second</li>
+  <li>Categorical cols must be encoded before sklearn models</li>
+</ul>
+</section>
+
+<section>
+<h2>IMPORTS (all-in-one)</h2>
+<pre>import pandas as pd
+import seaborn as sns
+from matplotlib import pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier, plot_tree
+from sklearn.naive_bayes import GaussianNB
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import (confusion_matrix,
+    ConfusionMatrixDisplay, classification_report,
+    accuracy_score, precision_score, recall_score,
+    f1_score, roc_auc_score, roc_curve)</pre>
+</section>
+
+</body>
+</html>
