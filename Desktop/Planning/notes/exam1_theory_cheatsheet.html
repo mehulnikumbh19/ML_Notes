@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>IS 670 Exam 1 — Theory Cheatsheet</title>
+<style>
+  @page { size: A4; margin: 10mm; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 7pt;
+    line-height: 1.35;
+    color: #111;
+    columns: 2;
+    column-gap: 10px;
+    padding: 10mm;
+  }
+  h1 {
+    column-span: all;
+    text-align: center;
+    font-size: 12pt;
+    margin-bottom: 5px;
+    border-bottom: 2px solid #000;
+    padding-bottom: 3px;
+  }
+  h2 {
+    font-size: 8pt;
+    background: #1a1a1a;
+    color: #fff;
+    padding: 2px 5px;
+    margin: 5px 0 3px 0;
+    break-inside: avoid;
+  }
+  h3 {
+    font-size: 7.2pt;
+    border-bottom: 0.7px solid #666;
+    margin: 3px 0 2px 0;
+    break-inside: avoid;
+    font-weight: bold;
+  }
+  p { margin: 1px 0 2px 0; }
+  ul { margin: 1px 0 2px 0; padding-left: 12px; }
+  li { margin-bottom: 1.5px; }
+  table { border-collapse: collapse; width: 100%; margin: 2px 0 4px 0; break-inside: avoid; font-size: 6.5pt; }
+  th, td { border: 0.5px solid #999; padding: 2px 4px; text-align: left; }
+  th { background: #ddd; font-weight: bold; }
+  .warn { color: #b00; font-weight: bold; }
+  .formula { background: #f0f0f0; padding: 2px 4px; margin: 2px 0; display: block; font-family: 'Consolas', monospace; font-size: 7pt; break-inside: avoid; }
+  section { break-inside: avoid; margin-bottom: 3px; }
+  .note { font-style: italic; color: #444; font-size: 6.5pt; }
+</style>
+</head>
+<body>
+
+<h1>IS 670 — Exam 1 Theory Cheatsheet [Lec 1–6 | Lab 1–5 | Assignment 1]</h1>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section>
+<h2>1. MACHINE LEARNING FOR BUSINESS ANALYTICS</h2>
+<ul>
+<li><b>What is ML?</b> Using data + algorithms to build models that predict or classify outcomes so a business can act (e.g., predict bad buys at auction, predict customer churn, classify spam).</li>
+<li><b>Supervised learning (this course):</b> We have labeled data — each record has a known outcome (the <b>target</b>). The model learns patterns from the features (predictors) to predict the target on new, unseen data.</li>
+<li><b>Classification vs Regression:</b> Classification predicts a <b>category</b> (e.g., Good Buy vs Kick, True vs False). Regression predicts a <b>number</b> (not covered in Exam 1).</li>
+<li><b>Why does it matter?</b> Better predictions → better business decisions → reduced losses / increased revenue.</li>
+</ul>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section>
+<h2>2. CRISP-DM (Cross-Industry Standard Process for Data Mining)</h2>
+<p>The structured methodology used in Assignment 1 and throughout the course:</p>
+<table>
+<tr><th>Phase</th><th>What You Do</th><th>Example (Car Dataset)</th></tr>
+<tr><td><b>Business Understanding</b></td><td>Define the problem, goal, and what the target variable means</td><td>Dealers want to avoid "kicks" (bad buys); target = Class (0 = good, 1 = kick)</td></tr>
+<tr><td><b>Data Understanding</b></td><td>Load, inspect, explore: shape, types, distributions, missing values, outliers, class balance</td><td>~67k rows, 31 cols; kick rate ~9.55% (imbalanced); VehBCost has outliers</td></tr>
+<tr><td><b>Data Preparation</b></td><td>Clean: handle missing, remove/cap outliers, drop useless columns, encode categoricals</td><td>Drop PurchDate/Model/Trim; fillna(median) for numeric; get_dummies for categoricals</td></tr>
+<tr><td><b>Modeling</b></td><td>Choose algorithm(s), define X and y, split train/test, fit, predict</td><td>DecisionTree with max_depth 3, 5, 7, 10, unlimited</td></tr>
+<tr><td><b>Evaluation</b></td><td>Measure performance on test data; compare models; report metrics</td><td>Confusion matrix, precision, recall, F1; pick best balance</td></tr>
+</table>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section>
+<h2>3. DATA TYPES &amp; STRUCTURES</h2>
+<h3>Variable Types</h3>
+<ul>
+<li><b>Numeric (quantitative):</b> Continuous (e.g., VehBCost, Attack) or discrete (e.g., VehicleAge). Summarize with mean, median, std; visualize with histograms, boxplots, scatter plots.</li>
+<li><b>Categorical (qualitative):</b> Nominal (no order — e.g., Color, Type1, Auction) or ordinal (ordered — e.g., Size: Small &lt; Medium &lt; Large). Summarize with counts/proportions; visualize with count plots, bar charts.</li>
+</ul>
+<h3>Data Structures</h3>
+<ul>
+<li><b>Tabular data:</b> Rows = records/observations (one per entity). Columns = variables/features (one per attribute).</li>
+<li><b>DataFrame:</b> pandas 2D table with column names and row index. Created from CSV via <code>pd.read_csv()</code>.</li>
+<li><b>Series:</b> A single column extracted from a DataFrame — one-dimensional.</li>
+<li><b>CSV:</b> Comma-separated values — a text file where each line is a row, commas separate columns.</li>
+</ul>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section>
+<h2>4. DATA UNDERSTANDING &amp; EXPLORATION</h2>
+<h3>Why Explore First?</h3>
+<p><b>Garbage in → garbage out.</b> You need to know variable types, distributions, missing values, outliers, and relationships <i>before</i> choosing a model. Exploration also reveals class imbalance (e.g., only ~9.55% kicks), which affects how you evaluate.</p>
+
+<h3>Missing Values</h3>
+<ul>
+<li><b>What:</b> NaN / null — no recorded value for that cell. Could mean "not applicable" (e.g., Type2 for single-type Pokemon) or data-entry error.</li>
+<li><b>Why handle:</b> Most sklearn models cannot accept NaN. Leaving them unhandled causes errors or biased results.</li>
+<li><b>Strategies:</b> (a) <b>Drop</b> rows/columns with too many missing. (b) <b>Impute numeric:</b> fill with median (robust to outliers) or mean. (c) <b>Impute categorical:</b> fill with mode (most frequent value) or treat missing as its own category (e.g., "None").</li>
+<li><span class="warn">Trap:</span> Filling a numeric column with a string (e.g., 'None') converts its data type to object — breaks numeric operations.</li>
+</ul>
+
+<h3>Outliers</h3>
+<ul>
+<li><b>What:</b> Values far from the rest of the data. Boxplots show them as points beyond the whiskers.</li>
+<li><b>IQR method:</b> Q1 = 25th percentile, Q3 = 75th percentile, IQR = Q3 − Q1. Lower fence = Q1 − 1.5×IQR, Upper fence = Q3 + 1.5×IQR. Points outside = outliers.</li>
+<li><b>Handling:</b> Cap/clip to fences, remove, or leave (depends on domain). In Assignment 1, IQR method used for WarrantyCost.</li>
+</ul>
+
+<h3>Class Imbalance</h3>
+<ul>
+<li><b>What:</b> One class is much more frequent than the other (e.g., 90% good buys, 10% kicks).</li>
+<li><b>Problem:</b> A model that always predicts the majority class gets high accuracy but zero recall for the minority class — useless.</li>
+<li><b>Solution:</b> Use precision, recall, F1 instead of accuracy alone. Evaluate minority-class performance explicitly.</li>
+</ul>
+
+<h3>Visualization Purposes</h3>
+<table>
+<tr><th>Goal</th><th>Plot Type</th><th>What It Shows</th></tr>
+<tr><td>Distribution of one numeric variable</td><td>Histogram</td><td>Bars show frequency in bins; reveals shape (symmetric, skewed, multimodal)</td></tr>
+<tr><td>Spread, quartiles, outliers of numeric</td><td>Boxplot</td><td>Box = IQR (Q1 to Q3); line = median; whiskers = 1.5×IQR; dots beyond = outliers</td></tr>
+<tr><td>Frequency of categories</td><td>Count plot / Bar chart</td><td>One bar per category; height = count (or proportion)</td></tr>
+<tr><td>Relationship between 2 numerics</td><td>Scatter plot</td><td>One dot per record; shows correlation, clusters, trends</td></tr>
+<tr><td>Compare numeric across categories</td><td>Grouped boxplot</td><td>Side-by-side boxes; e.g., Attack by Type1, or VehBCost by IsBadBuy</td></tr>
+<tr><td>Pairwise relationships (many numerics)</td><td>Pair plot</td><td>Grid of scatter plots + diagonal histograms; quick overview</td></tr>
+</table>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section>
+<h2>5. PREPROCESSING FOR ML</h2>
+
+<h3>One-Hot Encoding</h3>
+<ul>
+<li><b>Why:</b> sklearn models require numeric inputs. Categorical columns (text) must be converted to numbers.</li>
+<li><b>How:</b> Each category becomes a new 0/1 column. E.g., Color = {Red, Blue, Green} → Color_Blue (0/1), Color_Green (0/1). Red is inferred when both are 0.</li>
+<li><b>drop_first:</b> Drops one category per column to avoid <b>multicollinearity</b> — when one column can be perfectly predicted from the others. Keeps the model mathematically stable.</li>
+</ul>
+
+<h3>Feature Scaling / Normalization</h3>
+<ul>
+<li><b>Why:</b> Distance-based algorithms (KNN) are affected by the scale of features. If VehOdo ranges 0–150,000 and VehicleAge ranges 0–10, VehOdo dominates the distance calculation.</li>
+<li><b>MinMaxScaler:</b> Transforms each feature to [0, 1] range. Formula: x_scaled = (x − min) / (max − min).</li>
+<li><b>StandardScaler:</b> Transforms to mean = 0, std = 1 (z-score normalization).</li>
+<li><span class="warn">Critical rule:</span> Fit the scaler on <b>training data only</b>, then transform both train and test. Fitting on test = <b>data leakage</b> (test info leaks into preprocessing).</li>
+<li><b>Which models need scaling?</b> KNN: <b>always</b>. Decision Tree: no (splits are threshold-based, scale-invariant). Naive Bayes: no.</li>
+</ul>
+
+<h3>Target &amp; Predictors</h3>
+<ul>
+<li><b>Target (y):</b> The variable we want to predict (e.g., Class, IsBadBuy, Legendary).</li>
+<li><b>Predictors / Features (X):</b> All other variables the model uses as input to make predictions.</li>
+<li>Always separate y from X <i>before</i> train/test split. Never include the target in X.</li>
+</ul>
+
+<h3>Train / Test Split</h3>
+<ul>
+<li><b>Purpose:</b> Simulate how the model will perform on <b>new, unseen data</b>. Fit the model on training set; evaluate on test set.</li>
+<li><b>Typical ratio:</b> 70% train / 30% test (course standard).</li>
+<li><b>random_state:</b> A seed number that makes the random split reproducible — same split every time.</li>
+<li><span class="warn">Rule:</span> <b>Never</b> evaluate only on training data — this gives an overly optimistic estimate. <b>Never</b> tune hyperparameters using the test set — use a validation set or cross-validation instead.</li>
+</ul>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section>
+<h2>6. DECISION TREES</h2>
+
+<h3>How It Works</h3>
+<ul>
+<li>A flowchart of yes/no questions on features. Each internal <b>node</b> tests a feature (e.g., "Is VehicleAge ≤ 4.5?"). Each <b>branch</b> follows the answer. Each <b>leaf</b> assigns a predicted class.</li>
+<li>The tree is built <b>top-down</b>: at each node, the algorithm finds the feature and threshold that best separates the classes (maximizes "purity" of child nodes).</li>
+<li><b>Interpretable:</b> You can read the tree like a set of if-then rules; you can see exactly which features drive predictions — valuable for business explanations.</li>
+</ul>
+
+<h3>Entropy &amp; Information Gain</h3>
+<ul>
+<li><b>Entropy</b> measures impurity (disorder) in a node:</li>
+</ul>
+<span class="formula">H = −Σ pᵢ log₂(pᵢ)&nbsp;&nbsp;&nbsp;where pᵢ = proportion of class i in the node</span>
+<ul>
+<li>Entropy = 0 → node is <b>pure</b> (all one class). Maximum entropy → node is maximally mixed (50/50 for binary).</li>
+<li><b>Information Gain</b> = entropy(parent) − weighted average entropy(children). The algorithm picks the split with the <b>highest information gain</b> (biggest entropy reduction).</li>
+</ul>
+
+<h3>Gini Impurity (alternative)</h3>
+<ul>
+<li>Gini = 1 − Σ pᵢ². Also measures impurity; 0 = pure. sklearn default is gini; course labs use entropy.</li>
+<li>Both produce similar trees in practice. Entropy uses log; Gini is computationally simpler.</li>
+</ul>
+
+<h3>max_depth (Regularization)</h3>
+<ul>
+<li>Limits how deep the tree can grow. <b>Smaller max_depth</b> = simpler tree = less overfitting = better generalization (but may underfit if too small). <b>No limit</b> = tree can memorize training data (overfit).</li>
+<li>Assignment 1 tested max_depth = 3, 5, 7, 10, unlimited to compare overfitting vs generalization.</li>
+</ul>
+
+<h3>Strengths &amp; Weaknesses</h3>
+<table>
+<tr><th>Strengths</th><th>Weaknesses</th></tr>
+<tr><td>Highly interpretable (visual rules)</td><td>Prone to overfitting if unconstrained</td></tr>
+<tr><td>No scaling needed</td><td>Can be unstable (small data changes → different tree)</td></tr>
+<tr><td>Handles both numeric &amp; categorical (after encoding)</td><td>Greedy algorithm — locally optimal splits, not globally</td></tr>
+</table>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section>
+<h2>7. NAIVE BAYES</h2>
+
+<h3>Bayes' Theorem</h3>
+<p>The foundation of the algorithm. For classification:</p>
+<span class="formula">P(Class | features) ∝ P(features | Class) × P(Class)</span>
+<ul>
+<li><b>Prior — P(Class):</b> How common is each class in the training data? (e.g., 90% good buy, 10% kick). Represents our belief <i>before</i> seeing the features.</li>
+<li><b>Likelihood — P(features | Class):</b> Given a class, how likely are these feature values? Modeled differently by each NB variant.</li>
+<li><b>Posterior — P(Class | features):</b> What we want — the probability of each class given the observed features. We predict the class with the <b>highest posterior</b>.</li>
+</ul>
+
+<h3>The "Naive" Assumption</h3>
+<ul>
+<li>Assumes all features are <b>conditionally independent given the class</b>. This means:</li>
+</ul>
+<span class="formula">P(x₁, x₂, …, xₙ | Class) ≈ P(x₁ | Class) × P(x₂ | Class) × … × P(xₙ | Class)</span>
+<ul>
+<li>This is almost never true in real data (e.g., Attack and Defense in Pokemon are correlated). But the simplification makes the model <b>fast</b>, <b>tractable</b>, and surprisingly effective in practice.</li>
+<li><b>"Naive"</b> refers specifically to this independence assumption — not that the model is simplistic.</li>
+</ul>
+
+<h3>Variants</h3>
+<table>
+<tr><th>Variant</th><th>Feature Type</th><th>Assumption</th></tr>
+<tr><td><b>GaussianNB</b></td><td>Continuous numeric</td><td>Each feature follows a normal (Gaussian) distribution per class</td></tr>
+<tr><td><b>MultinomialNB</b></td><td>Discrete counts (non-negative)</td><td>Features are word/event counts (e.g., word frequencies in text)</td></tr>
+<tr><td><b>BernoulliNB</b></td><td>Binary (0/1)</td><td>Each feature is present or absent</td></tr>
+</table>
+<ul>
+<li>Lab 4 uses <b>MultinomialNB</b> on one-hot encoded car data. For continuous features with possible negatives, use <b>GaussianNB</b>.</li>
+</ul>
+
+<h3>Typical Trade-off (NB vs DT)</h3>
+<ul>
+<li>NB tends to have <b>higher recall</b> (catches more positives) but <b>lower precision</b> (more false alarms).</li>
+<li>DT tends to have <b>higher precision</b> but may <b>miss more positives</b> (lower recall).</li>
+<li>Choice depends on the <b>business cost:</b> is a false positive (false alarm) or a false negative (missed bad buy) more expensive?</li>
+</ul>
+
+<h3>Strengths &amp; Weaknesses</h3>
+<table>
+<tr><th>Strengths</th><th>Weaknesses</th></tr>
+<tr><td>Very fast to train and predict</td><td>"Naive" assumption rarely true</td></tr>
+<tr><td>Works well with limited data</td><td>Poor when features are correlated</td></tr>
+<tr><td>Less prone to overfitting</td><td>Probability estimates can be unreliable</td></tr>
+<tr><td>No scaling needed</td><td>MultinomialNB fails with negative values</td></tr>
+</table>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section>
+<h2>8. K-NEAREST NEIGHBORS (KNN)</h2>
+
+<h3>How It Works</h3>
+<ul>
+<li>For a new point to classify: (1) Calculate distance to <b>every</b> training point. (2) Find the <b>K closest</b> (nearest neighbors). (3) Take a <b>majority vote</b> — the most common class among those K neighbors is the prediction.</li>
+<li><b>Lazy learner / instance-based:</b> No model is built during training. All computation happens at prediction time (looks up neighbors on the fly). Contrast with <b>eager learners</b> (DT, NB) that build a model at fit time.</li>
+</ul>
+
+<h3>Distance Metric</h3>
+<span class="formula">Euclidean distance: d(x, y) = √( Σ (xᵢ − yᵢ)² )</span>
+<ul>
+<li>Default in sklearn. Other options include Manhattan distance (|xᵢ − yᵢ|). The choice of distance metric matters but Euclidean is standard for this course.</li>
+<li><span class="warn">Scaling is mandatory</span> because features with larger ranges dominate the distance. E.g., VehOdo (0–150k) would completely overshadow VehicleAge (0–10) without scaling.</li>
+</ul>
+
+<h3>Choosing K</h3>
+<table>
+<tr><th>K value</th><th>Effect</th><th>Risk</th></tr>
+<tr><td><b>K = 1</b></td><td>Each point's nearest neighbor is itself → 100% train accuracy</td><td><b>Severe overfitting</b> — memorizes noise; poor test accuracy</td></tr>
+<tr><td><b>Small K</b> (e.g., 3–5)</td><td>Sensitive to local patterns; complex decision boundary</td><td>Some overfitting risk</td></tr>
+<tr><td><b>Moderate K</b> (e.g., 4–20)</td><td>Smoother boundary; balances local detail and noise</td><td>Sweet spot; Lab 5 prefers K=4</td></tr>
+<tr><td><b>Very large K</b></td><td>Boundary approaches majority class everywhere</td><td><b>Underfitting</b> — too smooth; ignores local structure</td></tr>
+</table>
+
+<h3>Strengths &amp; Weaknesses</h3>
+<table>
+<tr><th>Strengths</th><th>Weaknesses</th></tr>
+<tr><td>Simple; no assumptions about data distribution</td><td>Slow at prediction (scans all training points)</td></tr>
+<tr><td>Adapts to complex, irregular boundaries</td><td>Must scale all features</td></tr>
+<tr><td>Non-parametric (no fixed model form)</td><td><b>Curse of dimensionality:</b> in high dimensions, distances become less meaningful; performance degrades</td></tr>
+</table>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section>
+<h2>9. CLASSIFICATION METRICS</h2>
+
+<h3>Confusion Matrix</h3>
+<p>A 2×2 table comparing actual vs predicted labels. Foundation for all other metrics:</p>
+<table>
+<tr><th></th><th>Predicted Negative (0)</th><th>Predicted Positive (1)</th></tr>
+<tr><th>Actual Negative (0)</th><td><b>TN</b> — True Negative (correctly predicted negative)</td><td><b>FP</b> — False Positive (predicted positive, actually negative; "false alarm")</td></tr>
+<tr><th>Actual Positive (1)</th><td><b>FN</b> — False Negative (predicted negative, actually positive; "miss")</td><td><b>TP</b> — True Positive (correctly predicted positive; "hit")</td></tr>
+</table>
+
+<h3>Metric Formulas &amp; Meaning</h3>
+<table>
+<tr><th>Metric</th><th>Formula</th><th>Interpretation</th><th>When to prioritize</th></tr>
+<tr><td><b>Accuracy</b></td><td>(TP + TN) / total</td><td>% of all predictions that are correct</td><td>Balanced classes only; <span class="warn">misleading when imbalanced</span></td></tr>
+<tr><td><b>Precision</b></td><td>TP / (TP + FP)</td><td>Of those predicted positive, what fraction actually is positive?</td><td>When <b>false positives are costly</b> (e.g., spam filter: don't block real email)</td></tr>
+<tr><td><b>Recall (Sensitivity)</b></td><td>TP / (TP + FN)</td><td>Of all actual positives, what fraction did we catch?</td><td>When <b>missing positives is costly</b> (e.g., Don't Get Kicked: don't miss bad buys)</td></tr>
+<tr><td><b>F1 Score</b></td><td>2 × P × R / (P + R)</td><td>Harmonic mean of precision and recall; balances both</td><td>When you need a single metric that considers both P and R</td></tr>
+<tr><td><b>AUC</b></td><td>Area under the ROC curve</td><td>Measures ranking ability: how well the model separates classes across all thresholds. 0.5 = random; 1.0 = perfect</td><td>Threshold-independent; good for comparing models overall</td></tr>
+</table>
+
+<h3>ROC Curve</h3>
+<ul>
+<li>Plots <b>True Positive Rate (Recall)</b> vs <b>False Positive Rate (FP / (FP + TN))</b> at every possible decision threshold.</li>
+<li>A model that perfectly separates classes has a curve that hugs the top-left corner (AUC = 1.0). A random model traces the diagonal (AUC = 0.5).</li>
+<li>AUC is useful because it's <b>threshold-independent</b> — summarizes performance across all cutoff points.</li>
+</ul>
+
+<h3>Why Accuracy Alone Fails (Imbalanced Data)</h3>
+<p><b>Example:</b> 90% good buys, 10% kicks. A model that predicts "good buy" for <i>everything</i> gets 90% accuracy — but 0% recall for kicks. It catches zero bad buys. Precision and recall for the <b>minority class</b> reveal this failure; accuracy hides it.</p>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section>
+<h2>10. OVERFITTING &amp; GENERALIZATION</h2>
+
+<h3>Definitions</h3>
+<ul>
+<li><b>Overfitting:</b> Model learns the training data <i>too well</i> — captures noise and idiosyncrasies, not just real patterns. Result: excellent training performance, poor test performance. The model fails to <b>generalize</b>.</li>
+<li><b>Underfitting:</b> Model is too simple to capture real patterns. Result: poor performance on <i>both</i> training and test data.</li>
+<li><b>Generalization:</b> The ability of a model to perform well on <b>new, unseen data</b> (the test set). This is the ultimate goal of ML.</li>
+</ul>
+
+<h3>How to Detect</h3>
+<table>
+<tr><th>Pattern</th><th>Diagnosis</th><th>Example from Labs</th></tr>
+<tr><td>High train accuracy, low test accuracy (large gap)</td><td><b>Overfitting</b></td><td>KNN K=1: 100% train, ~55% test; DT no max_depth: 100% train, ~55% test</td></tr>
+<tr><td>Low train accuracy, low test accuracy</td><td><b>Underfitting</b></td><td>KNN very large K; DT max_depth=1</td></tr>
+<tr><td>Reasonably high test accuracy, small train-test gap</td><td><b>Good generalization</b></td><td>KNN K=4: ~72% train, ~67% test; DT max_depth=3: ~75% train, ~72% test</td></tr>
+</table>
+
+<h3>Bias–Variance Trade-off</h3>
+<ul>
+<li><b>Bias:</b> Error from overly simple assumptions. High bias → underfitting (e.g., very large K, very shallow tree).</li>
+<li><b>Variance:</b> Error from sensitivity to small fluctuations in training data. High variance → overfitting (e.g., K=1, very deep tree).</li>
+<li>The goal is to find the <b>sweet spot</b> — a model complex enough to capture real patterns but simple enough not to memorize noise.</li>
+</ul>
+
+<h3>Regularization (How to Fight Overfitting)</h3>
+<table>
+<tr><th>Model</th><th>Regularization Parameter</th><th>How It Helps</th></tr>
+<tr><td>Decision Tree</td><td><b>max_depth</b></td><td>Smaller depth = simpler tree = less overfitting</td></tr>
+<tr><td>KNN</td><td><b>K (n_neighbors)</b></td><td>Larger K = smoother boundary = less overfitting</td></tr>
+<tr><td>Naive Bayes</td><td>(few tunable params)</td><td>Inherently simple; rarely overfits</td></tr>
+</table>
+
+<h3>Key Rules</h3>
+<ul>
+<li><span class="warn">Always evaluate on the test set</span> to estimate real-world performance. Training accuracy alone is meaningless.</li>
+<li><span class="warn">Never tune hyperparameters on the test set.</span> Use a separate validation set or cross-validation.</li>
+<li>More complex ≠ better. If two models have similar test accuracy, prefer the simpler one.</li>
+<li>100% training accuracy is a <b>red flag</b> for overfitting (especially KNN K=1, unconstrained DT).</li>
+</ul>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section>
+<h2>11. MODEL COMPARISON &amp; SELECTION</h2>
+
+<table>
+<tr><th>Property</th><th>Decision Tree</th><th>Naive Bayes</th><th>KNN</th></tr>
+<tr><td>Type</td><td>Rule-based (splits)</td><td>Probabilistic</td><td>Instance-based (distance)</td></tr>
+<tr><td>Learner type</td><td>Eager (builds model at fit)</td><td>Eager</td><td>Lazy (no model; all at predict)</td></tr>
+<tr><td>Interpretability</td><td><b>High</b> — visual tree / rules</td><td>Moderate — probabilities</td><td>Low — no explicit model</td></tr>
+<tr><td>Needs scaling?</td><td>No</td><td>No</td><td><b>Yes — always</b></td></tr>
+<tr><td>Speed (train)</td><td>Fast</td><td>Very fast</td><td>Instant (nothing to build)</td></tr>
+<tr><td>Speed (predict)</td><td>Fast</td><td>Fast</td><td>Slow (searches all training points)</td></tr>
+<tr><td>Main tuning param</td><td>max_depth, criterion</td><td>Variant choice</td><td>K (n_neighbors)</td></tr>
+<tr><td>Overfits when</td><td>Deep / no max_depth limit</td><td>Rarely</td><td>K = 1 (or very small K)</td></tr>
+<tr><td>Underfits when</td><td>max_depth too small</td><td>Rarely (simple by design)</td><td>K very large</td></tr>
+<tr><td>High-dim data</td><td>OK</td><td>OK</td><td>Suffers (curse of dimensionality)</td></tr>
+</table>
+
+<h3>When to Choose Which</h3>
+<ul>
+<li><b>Need to explain decisions to business stakeholders?</b> → Decision Tree (readable rules).</li>
+<li><b>Fast baseline with limited data?</b> → Naive Bayes (fast, few params, robust).</li>
+<li><b>Numeric features, irregular decision boundaries?</b> → KNN (after scaling).</li>
+<li><b>Imbalanced data?</b> → Any model, but evaluate with precision/recall/F1, not accuracy.</li>
+<li><b>Suspect overfitting?</b> → DT: reduce max_depth. KNN: increase K. NB: usually fine.</li>
+</ul>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section>
+<h2>12. KEY FORMULAS (ALL IN ONE PLACE)</h2>
+<span class="formula"><b>Accuracy</b> = (TP + TN) / (TP + TN + FP + FN)</span>
+<span class="formula"><b>Precision</b> = TP / (TP + FP)</span>
+<span class="formula"><b>Recall</b> = TP / (TP + FN)</span>
+<span class="formula"><b>F1</b> = 2 × Precision × Recall / (Precision + Recall)</span>
+<span class="formula"><b>Entropy</b> = −Σ pᵢ log₂(pᵢ) &nbsp;&nbsp;[0 = pure, max = mixed]</span>
+<span class="formula"><b>Gini</b> = 1 − Σ pᵢ² &nbsp;&nbsp;[0 = pure]</span>
+<span class="formula"><b>Information Gain</b> = H(parent) − Σ (nⱼ/n) × H(childⱼ)</span>
+<span class="formula"><b>Bayes</b>: P(Class|X) ∝ P(X|Class) × P(Class)</span>
+<span class="formula"><b>Naive</b>: P(X|Class) ≈ P(x₁|Class) × P(x₂|Class) × … × P(xₙ|Class)</span>
+<span class="formula"><b>Euclidean</b>: d(x, y) = √( Σ (xᵢ − yᵢ)² )</span>
+<span class="formula"><b>MinMax</b>: x_scaled = (x − min) / (max − min)</span>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section>
+<h2>13. GLOSSARY OF ALL TERMS</h2>
+<table>
+<tr><th>Term</th><th>Definition</th></tr>
+<tr><td>Supervised learning</td><td>Learning from labeled data (known target) to predict on new data</td></tr>
+<tr><td>Classification</td><td>Predicting a categorical outcome (class label)</td></tr>
+<tr><td>Target (y)</td><td>The variable we predict</td></tr>
+<tr><td>Predictors / Features (X)</td><td>Input variables used to make predictions</td></tr>
+<tr><td>Train set</td><td>Data used to fit the model</td></tr>
+<tr><td>Test set</td><td>Held-out data used to evaluate generalization</td></tr>
+<tr><td>DataFrame</td><td>pandas 2D table (rows × columns) with labels</td></tr>
+<tr><td>Series</td><td>A single column from a DataFrame</td></tr>
+<tr><td>CSV</td><td>Text file format: rows as lines, columns separated by commas</td></tr>
+<tr><td>Missing value (NaN)</td><td>No recorded value; must be detected and handled</td></tr>
+<tr><td>Outlier</td><td>A value far from the rest; detected via boxplots or IQR</td></tr>
+<tr><td>One-hot encoding</td><td>Converting categories to 0/1 columns for ML models</td></tr>
+<tr><td>Multicollinearity</td><td>When one feature can be predicted from others; drop_first avoids this</td></tr>
+<tr><td>Data leakage</td><td>When test-set info leaks into training/preprocessing; invalidates results</td></tr>
+<tr><td>Decision tree</td><td>Model that splits on features; nodes = questions, leaves = predictions</td></tr>
+<tr><td>Entropy</td><td>Impurity measure: −Σ pᵢ log₂(pᵢ); lower = purer</td></tr>
+<tr><td>Gini impurity</td><td>Alternative impurity: 1 − Σ pᵢ²</td></tr>
+<tr><td>Information gain</td><td>Reduction in entropy after a split</td></tr>
+<tr><td>max_depth</td><td>Limits tree depth; regularization for DT</td></tr>
+<tr><td>Naive Bayes</td><td>Probabilistic classifier assuming feature independence given class</td></tr>
+<tr><td>Prior</td><td>P(Class) — class proportion before seeing features</td></tr>
+<tr><td>Likelihood</td><td>P(features|Class) — feature probability given a class</td></tr>
+<tr><td>Posterior</td><td>P(Class|features) — what we predict; highest posterior wins</td></tr>
+<tr><td>KNN</td><td>Classify by majority vote of K nearest training points</td></tr>
+<tr><td>Euclidean distance</td><td>Straight-line distance: √(Σ(xᵢ−yᵢ)²)</td></tr>
+<tr><td>Lazy learner</td><td>No model built at training time; all work at prediction (KNN)</td></tr>
+<tr><td>Eager learner</td><td>Builds model at training time (DT, NB)</td></tr>
+<tr><td>Scaling / Normalization</td><td>Rescaling features to equal range so distance is fair</td></tr>
+<tr><td>Confusion matrix</td><td>Table of TN, FP, FN, TP — basis of all classification metrics</td></tr>
+<tr><td>Precision</td><td>TP/(TP+FP) — "of predicted positives, how many are right?"</td></tr>
+<tr><td>Recall</td><td>TP/(TP+FN) — "of actual positives, how many did we find?"</td></tr>
+<tr><td>F1 score</td><td>Harmonic mean of precision and recall</td></tr>
+<tr><td>AUC / ROC</td><td>Area under the ROC curve; threshold-independent ranking quality</td></tr>
+<tr><td>Overfitting</td><td>Model memorizes training data; high train, poor test performance</td></tr>
+<tr><td>Underfitting</td><td>Model too simple; poor on both train and test</td></tr>
+<tr><td>Generalization</td><td>Good performance on new, unseen (test) data</td></tr>
+<tr><td>Regularization</td><td>Constraining model complexity to reduce overfitting</td></tr>
+<tr><td>Bias</td><td>Error from overly simple assumptions (high bias → underfitting)</td></tr>
+<tr><td>Variance</td><td>Error from sensitivity to training data noise (high variance → overfitting)</td></tr>
+<tr><td>Curse of dimensionality</td><td>In high dimensions, distances become less meaningful; KNN suffers</td></tr>
+<tr><td>Class imbalance</td><td>One class is far more frequent; accuracy is misleading</td></tr>
+<tr><td>CRISP-DM</td><td>Business Understanding → Data Understanding → Preparation → Modeling → Evaluation</td></tr>
+</table>
+</section>
+
+</body>
+</html>
