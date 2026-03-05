@@ -2,77 +2,84 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>IS 670 Exam 1 — Ultimate Exhaustive Cheatsheet</title>
+<title>IS 670 Exam 1 — 2-Page Detailed Cheatsheet</title>
 <style>
-  @page { size: A4; margin: 8mm; }
+  @page { size: A4; margin: 10mm; }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
     font-family: 'Segoe UI', Arial, sans-serif;
-    font-size: 5.8pt;
-    line-height: 1.2;
+    font-size: 6.5pt;
+    line-height: 1.3;
     color: #111;
-    columns: 3;
-    column-gap: 6px;
-    padding: 6mm;
+    columns: 2;
+    column-gap: 8px;
+    padding: 8mm;
+    max-width: 210mm;
+    min-height: 297mm;
   }
+  .page { break-after: page; min-height: 277mm; }
+  .page:last-of-type { break-after: auto; }
   h1 {
     column-span: all;
     text-align: center;
-    font-size: 9pt;
-    margin-bottom: 3px;
-    border-bottom: 1.5px solid #000;
-    padding-bottom: 2px;
+    font-size: 11pt;
+    margin-bottom: 4px;
+    border-bottom: 2px solid #000;
+    padding-bottom: 3px;
   }
   h2 {
-    font-size: 6.8pt;
+    font-size: 7.5pt;
     background: #222;
     color: #fff;
-    padding: 1px 3px;
-    margin: 3px 0 1px 0;
+    padding: 2px 4px;
+    margin: 4px 0 2px 0;
     break-inside: avoid;
   }
   h3 {
-    font-size: 6pt;
+    font-size: 6.8pt;
     border-bottom: 0.5px solid #888;
     margin: 2px 0 1px 0;
     break-inside: avoid;
   }
-  ul, li { margin-bottom: 0.5px; padding-left: 8px; }
+  ul, li { margin-bottom: 1px; padding-left: 10px; }
   code {
     font-family: 'Consolas', monospace;
-    font-size: 5.5pt;
+    font-size: 6pt;
     background: #eee;
     padding: 0 1px;
     border-radius: 1px;
   }
   pre {
     font-family: 'Consolas', monospace;
-    font-size: 5.2pt;
+    font-size: 5.8pt;
     background: #f4f4f4;
     border: 0.5px solid #ccc;
-    padding: 1px 2px;
-    margin: 1px 0;
+    padding: 2px 3px;
+    margin: 1px 0 2px 0;
     white-space: pre-wrap;
     break-inside: avoid;
   }
-  table { border-collapse: collapse; width: 100%; margin: 1px 0; break-inside: avoid; font-size: 5.5pt; }
-  th, td { border: 0.5px solid #999; padding: 1px 2px; }
+  table { border-collapse: collapse; width: 100%; margin: 2px 0; break-inside: avoid; font-size: 6pt; }
+  th, td { border: 0.5px solid #999; padding: 2px 3px; }
   th { background: #ddd; }
-  .tag { font-size: 5pt; color: #666; }
   .warn { color: #b00; font-weight: bold; }
-  section { break-inside: avoid; margin-bottom: 2px; }
+  .formula { font-style: italic; }
+  section { break-inside: avoid; margin-bottom: 3px; }
 </style>
 </head>
 <body>
 
-<h1>IS 670 — Exam 1 Ultimate Cheatsheet [Lec1–6 | Lab1–5 | Assign1 | Drills]</h1>
+<h1>IS 670 — Exam 1 Detailed Cheatsheet (2 pages) [Lec1–6 | Lab1–5 | Assign1]</h1>
+
+<div class="page">
 
 <section>
 <h2>1. COLAB &amp; ENVIRONMENT</h2>
 <ul>
-<li><code>from google.colab import drive</code> → <code>drive.mount('/content/drive')</code>: Mounts Google Drive so Colab can read files at paths like <code>/content/drive/MyDrive/IS 670/</code>. [Lab01]</li>
-<li><b>Notebook</b>: Cells = Markdown (text) or Python (code); run top-to-bottom; variables persist across cells until runtime restart. [Lec1]</li>
-<li><b>DataFrame</b>: pandas 2D table with rows, columns, column names, index. [Lec1]</li>
+<li><code>from google.colab import drive</code> then <code>drive.mount('/content/drive')</code> — mounts Drive so paths like <code>/content/drive/MyDrive/IS 670/file.csv</code> work. Run once per session.</li>
+<li><b>Notebook:</b> Cells = Markdown (text) or Code (Python). Run in order; variables persist until runtime disconnect. Save: File → Save; download as .ipynb.</li>
+<li><b>DataFrame:</b> pandas 2D table — rows = records, columns = variables, has column names and index. CSV = comma-separated text file.</li>
+<li><b>Variable:</b> Name that holds a value (e.g. <code>pokemon</code> holds the DataFrame).</li>
 </ul>
 </section>
 
@@ -80,234 +87,180 @@
 <h2>2. DATA LOADING &amp; INSPECTION</h2>
 <h3>Load</h3>
 <ul>
-<li><code>df = pd.read_csv('path/to/file.csv')</code>: Loads CSV into DataFrame. [Lab01,Lec1]</li>
-<li>Colab path example: <code>'/content/drive/MyDrive/IS 670/pokemon.csv'</code> [Lab01]</li>
+<li><code>df = pd.read_csv('path/to/file.csv')</code> — returns DataFrame. Colab: <code>'/content/drive/MyDrive/IS 670/pokemon.csv'</code>.</li>
 </ul>
-<h3>Inspect — every variation</h3>
+<h3>Inspect (every variation)</h3>
 <ul>
-<li><code>df.shape</code>: Returns (rows, columns) tuple e.g. (800, 12). [Lab01,Lec1]</li>
-<li><code>df.head()</code>: First 5 rows. [Lab01,Lec2]</li>
-<li><code>df.head(3)</code>: First 3 rows. [Lab01]</li>
-<li><code>df.tail()</code>: Last 5 rows. [Lab02]</li>
-<li><code>df.columns</code>: List of column names. [Lab01,Lab02]</li>
-<li><code>df.dtypes</code>: Data type per column. [Assign1,08]</li>
-<li><code>df.describe()</code>: Summary stats (count, mean, std, min, quartiles, max) for numeric columns. [Lec2,Assign1]</li>
-</ul>
-<h3>Column selection</h3>
-<ul>
-<li><code>df['Attack']</code>: Single column → returns <b>Series</b>. [Lab01,Lec1]</li>
-<li><code>df[['Attack','Defense']]</code>: Multiple columns → returns <b>DataFrame</b>. Double brackets = list of names. [Lab01,Lec1]</li>
-<li><code>df[['A']]</code> vs <code>df['A']</code>: Both same data; first keeps as DataFrame, second as Series. [Lab01]</li>
+<li><code>df.shape</code> → (rows, cols) e.g. (800, 12). <code>df.head()</code> / <code>df.head(3)</code> — first 5 or 3 rows. <code>df.tail()</code> — last 5.</li>
+<li><code>df.columns</code> — list of column names. <code>df.dtypes</code> — type per column. <code>df.describe()</code> — count, mean, std, min, 25/50/75%, max for numerics.</li>
+<li><code>df['Class'].value_counts()</code> — count per category. <code>value_counts(normalize=True)</code> — proportions. <code>df['Class'].mean()*100</code> — e.g. kick rate %.</li>
+<li><b>Column select:</b> <code>df['Attack']</code> → Series (1 col). <code>df[['Attack','Defense']]</code> → DataFrame (double brackets = list). <code>df[['A']]</code> vs <code>df['A']</code> — same data; first is DataFrame.</li>
 </ul>
 </section>
 
 <section>
-<h2>3. MISSING VALUES</h2>
+<h2>3. MISSING VALUES &amp; CLEANING</h2>
 <ul>
-<li><code>df.isnull().sum()</code>: Count of NaN per column. Returns Series. [Lab02,Lec2]</li>
-<li><code>df = df.fillna('None')</code>: Replace ALL missing with string 'None'. <span class="warn">Only for categorical</span> — on numeric converts to object. [Lab02,Lec2]</li>
-<li><code>df['Type2'] = df['Type2'].fillna('None')</code>: Fill single column. [Drills]</li>
-<li><code>df = df.fillna({'cat_col':'None'})</code>: Dict to fill specific columns. [08]</li>
-<li><code>df['num_col'] = df['num_col'].fillna(df['num_col'].median())</code>: Numeric: fill with median. [08,Assign1]</li>
-<li><code>df['col'].fillna(df['col'].mode()[0])</code>: Categorical: fill with mode. [Assign1]</li>
-<li>Verify: run <code>isnull().sum()</code> again after cleaning. [Lec2]</li>
+<li><code>df.isnull().sum()</code> — count NaN per column (returns Series). Run before and after cleaning.</li>
+<li><b>Categorical:</b> <code>df = df.fillna('None')</code> or <code>df['Type2'] = df['Type2'].fillna('None')</code> or <code>df.fillna({'cat_col':'None'})</code>. <span class="warn">Never on numeric</span> — converts to object.</li>
+<li><b>Numeric:</b> <code>df['col'] = df['col'].fillna(df['col'].median())</code> or <code>fillna(df['col'].mean())</code>. Categorical mode: <code>fillna(df['col'].mode()[0])</code>.</li>
+<li>Drop columns: <code>df.drop(['IsBadBuy'], axis=1)</code> or <code>df.drop(columns=['Class'])</code>. <code>df.drop(columns=drop_cols, errors='ignore')</code> — skips missing cols. [Assign1: drop PurchDate, Model, redundant cols.]</li>
 </ul>
 </section>
 
 <section>
 <h2>4. PREPROCESSING</h2>
-<h3>Drop columns</h3>
-<ul>
-<li><code>df.drop(['IsBadBuy'], axis=1)</code>: Drop column; returns new DataFrame unless <code>inplace=True</code>. [Lab03]</li>
-<li><code>df.drop(columns=['Class'])</code>: Same; preferred syntax. [08,Assign1]</li>
-<li><code>df_clean = df.drop(columns=drop_cols, errors='ignore')</code>: <code>errors='ignore'</code> skips non-existent cols. [Assign1]</li>
-</ul>
 <h3>One-hot encoding</h3>
 <ul>
-<li><code>pd.get_dummies(df, columns=['Auction','Color','Size','TopThreeAmericanName','WheelType'], drop_first=True, dtype=int)</code>: Converts categoricals to 0/1 numeric columns. <code>drop_first=True</code> avoids multicollinearity (one category inferred from others). [Lab03,Lab04,Assign1]</li>
-<li><b>Why</b>: sklearn classifiers require numeric inputs; trees can't use raw text. [Lab03]</li>
+<li><code>pd.get_dummies(df, columns=['Auction','Color','Size','TopThreeAmericanName','WheelType'], drop_first=True, dtype=int)</code>. Converts categories to 0/1 columns. <code>drop_first=True</code> avoids multicollinearity (one category redundant). sklearn needs numeric inputs.</li>
 </ul>
-<h3>Value counts &amp; IQR (outliers)</h3>
+<h3>Value counts &amp; outliers</h3>
 <ul>
-<li><code>df['col'].value_counts()</code>: Count per category. [Lab02,Assign1]</li>
-<li><code>df['col'].value_counts(normalize=True)</code>: Proportions. [Lab02,Assign1]</li>
-<li><code>df['Class'].mean() * 100</code>: Kick rate as %. [Assign1]</li>
-<li><code>df['col'].value_counts().plot(kind='bar')</code>: Bar chart of counts. [Lab02]</li>
-<li><b>IQR method:</b> <code>Q1 = col.quantile(0.25)</code>, <code>Q3 = col.quantile(0.75)</code>, <code>IQR = Q3 - Q1</code>; bounds: Q1−1.5×IQR, Q3+1.5×IQR. [Lab02,Assign1]</li>
+<li><code>df['col'].value_counts()</code>; <code>.value_counts(normalize=True)</code>; <code>.value_counts().plot(kind='bar')</code>.</li>
+<li><b>IQR outlier method:</b> <code>Q1 = col.quantile(0.25)</code>, <code>Q3 = col.quantile(0.75)</code>, <code>IQR = Q3 - Q1</code>. Lower bound = Q1 − 1.5×IQR, upper = Q3 + 1.5×IQR. Points outside = outliers (boxplot whiskers).</li>
 </ul>
 </section>
 
 <section>
-<h2>5. DEFINE TARGET &amp; PREDICTORS</h2>
+<h2>5. TARGET, PREDICTORS &amp; TRAIN/TEST SPLIT</h2>
 <ul>
-<li><code>target = df['IsBadBuy']</code>; <code>predictors = df.drop(['IsBadBuy'], axis=1)</code> [Lab03]</li>
-<li><code>y = df['Class']</code>; <code>X = df.drop(columns=['Class'])</code> [Assign1,08,Drills]</li>
-<li><b>Target</b>: Variable we predict (e.g. Class, IsBadBuy, Legendary). <b>Predictors/Features</b>: All other columns. [Lec3]</li>
+<li><b>Target (y):</b> Variable we predict (Class, IsBadBuy, Legendary). <b>Predictors (X):</b> All other columns.</li>
+<li><code>target = df['IsBadBuy']</code>; <code>predictors = df.drop(['IsBadBuy'], axis=1)</code>. Or <code>y = df['Class']</code>; <code>X = df.drop(columns=['Class'])</code>.</li>
+<li><code>X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=0)</code> — 70% train, 30% test. <code>random_state=42</code> also used. <code>stratify=y</code> keeps class ratio in split (good for imbalanced).</li>
+<li><b>Rule:</b> Fit on train only; evaluate on test to measure <b>generalization</b>. <span class="warn">Never evaluate only on training data.</span></li>
 </ul>
 </section>
 
 <section>
-<h2>6. TRAIN/TEST SPLIT</h2>
-<ul>
-<li><code>X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=0)</code> [Lab03]</li>
-<li><code>random_state=42</code>: Alternative seed for reproducibility. [Assign1,08]</li>
-<li><b>Rule</b>: Fit on <b>train</b>; evaluate on <b>test</b> only → measures generalization. <span class="warn">Never evaluate only on training data.</span> [Lec3,Lec6]</li>
-<li>Lab 3: 70% train, 30% test. [Lab03]</li>
-</ul>
-</section>
-
-<section>
-<h2>7. DECISION TREE</h2>
-<h3>How it works</h3>
-<ul>
-<li>Splits on features (e.g. VehicleAge ≤ 4.5 → left/right); leaves assign class. [Lec3]</li>
-<li><b>Entropy</b>: H = −Σ pᵢ log₂(pᵢ). Lower = purer; 0 = single class. Split reduces entropy (max info gain). [Lec3]</li>
-<li><b>criterion</b>: <code>'entropy'</code>, <code>'gini'</code>, or <code>'log_loss'</code>; Lab uses entropy. [Lab03,Lec3]</li>
-<li><b>max_depth</b>: Limits tree depth; smaller = less overfitting. [Lec3,Lec6]</li>
-</ul>
-<h3>Code — every variation</h3>
-<ul>
-<li><code>model = DecisionTreeClassifier(criterion='entropy', random_state=1, max_depth=2)</code> [Lab03]</li>
-<li><code>model = DecisionTreeClassifier(criterion='entropy', max_depth=3, random_state=1)</code> [Lab04,Lec3]</li>
-<li><code>dt = DecisionTreeClassifier(max_depth=5, random_state=42)</code> — Assignment 1 style; default criterion=gini. [Assign1]</li>
-<li><code>model = DecisionTreeClassifier()</code> — no max_depth = unconstrained (overfits). [Lab05]</li>
-<li><code>model.fit(X_train, y_train)</code>; <code>y_pred = model.predict(X_test)</code> [Lab03–05]</li>
-</ul>
-</section>
-
-<section>
-<h2>8. NAIVE BAYES</h2>
+<h2>6. DECISION TREE</h2>
 <h3>Concepts</h3>
 <ul>
-<li><b>Bayes</b>: P(Class|X) ∝ P(X|Class) × P(Class). Pick class with highest posterior. [Lec4]</li>
-<li><b>"Naive"</b>: P(X|Class) ≈ P(x₁|Class)×P(x₂|Class)×…; features conditionally independent given class. [Lec4]</li>
-<li><b>Prior</b>: P(Class); <b>Likelihood</b>: P(X|Class). [Lec4]</li>
+<li>Model that splits on features (e.g. VehicleAge ≤ 4.5 → left, else right). Each node = question; leaves = predicted class. <b>Interpretable</b> — can see which features drive predictions.</li>
+<li><b>Entropy:</b> H = −Σ pᵢ log₂(pᵢ) over classes. Lower = purer (one class dominates). Leaf with one class has entropy 0. Tree picks splits that <b>reduce entropy most</b> = maximize <b>information gain</b>.</li>
+<li><b>Gini</b> (alternative): G = 1 − Σ pᵢ². Also measures impurity.</li>
+<li><b>criterion:</b> <code>'entropy'</code>, <code>'gini'</code>, or <code>'log_loss'</code>. Labs use entropy. <b>max_depth:</b> Limits depth; smaller = simpler = less overfitting.</li>
+</ul>
+<h3>Code (all variations)</h3>
+<ul>
+<li><code>DecisionTreeClassifier(criterion='entropy', random_state=1, max_depth=2)</code> [Lab3]; <code>max_depth=3</code> [Lab4]. <code>DecisionTreeClassifier(max_depth=5, random_state=42)</code> [Assign1 — default gini].</li>
+<li><code>DecisionTreeClassifier()</code> with no max_depth = unconstrained (overfits, 100% train). <code>model.fit(X_train, y_train)</code>; <code>y_pred = model.predict(X_test)</code>.</li>
+<li><b>Plot tree:</b> <code>from sklearn.tree import plot_tree</code>; <code>plot_tree(model, feature_names=X_train.columns.tolist(), max_depth=3, filled=True, rounded=True)</code>. <code>export_text(model, feature_names=list(X.columns))</code> — text version.</li>
+</ul>
+</section>
+
+<section>
+<h2>7. NAIVE BAYES</h2>
+<h3>Concepts</h3>
+<ul>
+<li><b>Bayes:</b> P(Class|X) ∝ P(X|Class) × P(Class). Predict class that maximizes posterior. <b>Prior</b> = P(Class); <b>Likelihood</b> = P(X|Class).</li>
+<li><b>"Naive":</b> P(X|Class) ≈ P(x₁|Class)×P(x₂|Class)×… — features <b>conditionally independent</b> given class. Simplifies computation; often works well despite being false.</li>
+<li>Fast; no scaling needed; few parameters. <b>Trade-off vs DT:</b> NB often higher recall, lower precision (more false alarms); DT often higher precision.</li>
 </ul>
 <h3>sklearn variants</h3>
 <ul>
-<li><b>GaussianNB</b>: Continuous numeric; assumes normal per class. [Lec4,08]</li>
-<li><b>MultinomialNB</b>: Discrete/count features (non-negative). Lab 4 car data. [Lab04,Lec4]</li>
-<li><b>BernoulliNB</b>: Binary 0/1 features. [Lec4]</li>
-<li><span class="warn">MultinomialNB + negative/continuous</span> → use GaussianNB or scale first. [Lec4]</li>
-</ul>
-<h3>Code</h3>
-<ul>
-<li><code>model = MultinomialNB()</code>; <code>model.fit(X_train, y_train)</code>; <code>y_pred = model.predict(X_test)</code> [Lab04]</li>
-<li><code>model = GaussianNB()</code> for continuous. [08]</li>
-<li><b>Typical trade-off</b>: NB higher recall, lower precision (more false positives); DT higher precision. [Lec4]</li>
+<li><b>GaussianNB</b> — continuous numeric; assumes normal distribution per class.</li>
+<li><b>MultinomialNB</b> — discrete/count features (non-negative). Lab 4 car data. <span class="warn">Negative/continuous</span> → use GaussianNB or scale first.</li>
+<li><b>BernoulliNB</b> — binary 0/1 features.</li>
+<li><code>model = MultinomialNB()</code> or <code>GaussianNB()</code>; <code>model.fit(X_train, y_train)</code>; <code>y_pred = model.predict(X_test)</code>.</li>
 </ul>
 </section>
 
 <section>
-<h2>9. KNN (K-NEAREST NEIGHBORS)</h2>
+<h2>8. KNN (K-NEAREST NEIGHBORS)</h2>
 <h3>Concepts</h3>
 <ul>
-<li>Find K nearest training points (Euclidean distance); majority vote = prediction. [Lec5]</li>
-<li><b>Euclidean</b>: d(x,y) = √(Σ(xᵢ−yᵢ)²). Features with larger scale dominate → <span class="warn">MUST SCALE.</span> [Lec5]</li>
-<li><b>K=1</b>: Each point's nearest neighbor = itself → 100% train, poor test (overfitting). [Lab05,Lec5]</li>
-<li><b>Large K</b>: Underfitting; predicts majority class. [Lec5]</li>
-<li><b>Lazy learner</b>: No model at fit; work at predict. [Lec5]</li>
+<li>For new point, find K closest training points (by distance); <b>majority vote</b> = prediction. <b>Lazy learner</b> — no model at fit; all work at predict.</li>
+<li><b>Euclidean distance:</b> d(x,y) = √(Σ(xᵢ−yᵢ)²). Features with larger scale dominate → <span class="warn">MUST scale</span> (e.g. MinMaxScaler) so all features contribute fairly.</li>
+<li><b>K=1:</b> Nearest neighbor = self → 100% train accuracy, poor test (overfitting). <b>Large K:</b> Underfitting; predicts majority class. Sweet spot: moderate K (e.g. 4, 5). <b>Curse of dimensionality:</b> In high dimensions, KNN suffers; prefer NB or DT.</li>
 </ul>
-<h3>Scaling — critical</h3>
+<h3>Scaling (critical)</h3>
 <ul>
-<li><code>scaler = MinMaxScaler()</code>; <code>X_train_s = scaler.fit_transform(X_train)</code>; <code>X_test_s = scaler.transform(X_test)</code> — <span class="warn">fit on train only; transform both.</span> [Lab05,08]</li>
-<li><code>predictors_normalized = pd.DataFrame(min_max_scaler.fit_transform(predictors))</code>; <code>predictors_normalized.columns = predictors.columns</code> — Preserve column names after fit_transform (returns ndarray). [Lab05]</li>
-<li><code>from sklearn.preprocessing import MinMaxScaler</code> or <code>from sklearn import preprocessing; preprocessing.MinMaxScaler()</code> [Lab05,08]</li>
-<li>MinMax: maps to [0,1]; StandardScaler: mean 0, std 1. [Lec5]</li>
-</ul>
-<h3>Code</h3>
-<ul>
-<li><code>model = KNeighborsClassifier(n_neighbors=1)</code> — overfitting. [Lab05]</li>
-<li><code>model = KNeighborsClassifier(n_neighbors=4)</code> or <code>n_neighbors=5</code> — better generalization. [Lab05,08]</li>
+<li><b>MinMaxScaler:</b> (x − min)/(max − min) per feature → [0, 1]. <b>StandardScaler:</b> z-score (mean 0, std 1).</li>
+<li><code>scaler = MinMaxScaler()</code>; <code>X_train_s = scaler.fit_transform(X_train)</code>; <code>X_test_s = scaler.transform(X_test)</code>. <span class="warn">Fit on train only</span>; transform both — fitting on test = data leakage.</li>
+<li>After <code>fit_transform</code>, result is ndarray; restore names: <code>X_train_s = pd.DataFrame(scaler.fit_transform(X_train)); X_train_s.columns = X_train.columns</code>.</li>
+<li><code>KNeighborsClassifier(n_neighbors=1)</code> — overfit. <code>n_neighbors=4</code> or <code>5</code> — better generalization.</li>
 </ul>
 </section>
 
+</div>
+
+<div class="page">
+
 <section>
-<h2>10. CONFUSION MATRIX &amp; METRICS</h2>
-<h3>Confusion matrix layout</h3>
+<h2>9. CONFUSION MATRIX &amp; METRICS</h2>
+<h3>Layout (memorize)</h3>
 <table>
-<tr><th></th><th>Pred 0</th><th>Pred 1</th></tr>
-<tr><th>Actual 0</th><td><b>TN</b></td><td>FP</td></tr>
-<tr><th>Actual 1</th><td>FN</td><td><b>TP</b></td></tr>
+<tr><th></th><th>Predicted 0 (Neg)</th><th>Predicted 1 (Pos)</th></tr>
+<tr><th>Actual 0</th><td><b>TN</b> (correct neg)</td><td><b>FP</b> (false alarm)</td></tr>
+<tr><th>Actual 1</th><td><b>FN</b> (missed)</td><td><b>TP</b> (correct pos)</td></tr>
 </table>
 <ul>
-<li><code>cm = confusion_matrix(y_test, y_pred)</code> — <span class="warn">y_true first, y_pred second.</span> [Lab03]</li>
-<li><code>ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=model.classes_).plot()</code> [Lab03,Lab04]</li>
-<li><code>ConfusionMatrixDisplay.from_predictions(y_test, y_pred)</code> — alternative.</li>
-<li><code>display_labels=['Good Buy','Kick']</code> for custom names. [Assign1]</li>
+<li><code>cm = confusion_matrix(y_test, y_pred)</code> — <span class="warn">y_true first, y_pred second.</span> <code>ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=model.classes_).plot()</code> or <code>ConfusionMatrixDisplay.from_predictions(y_test, y_pred)</code>. Custom labels: <code>display_labels=['Good Buy','Kick']</code>.</li>
 </ul>
 <h3>Formulas (memorize)</h3>
 <table>
-<tr><th>Metric</th><th>Formula</th></tr>
-<tr><td>Accuracy</td><td>(TP+TN)/total</td></tr>
-<tr><td>Precision</td><td>TP/(TP+FP)</td></tr>
-<tr><td>Recall</td><td>TP/(TP+FN)</td></tr>
-<tr><td>F1</td><td>2×P×R/(P+R)</td></tr>
-<tr><td>AUC</td><td>Area under ROC; 0.5=random, 1=perfect</td></tr>
+<tr><th>Metric</th><th>Formula</th><th>When to use</th></tr>
+<tr><td>Accuracy</td><td>(TP+TN)/total</td><td>Baseline; misleading if imbalanced</td></tr>
+<tr><td>Precision</td><td>TP/(TP+FP)</td><td>When FP costly (e.g. spam filter)</td></tr>
+<tr><td>Recall</td><td>TP/(TP+FN)</td><td>When missing positives costly (e.g. bad buys)</td></tr>
+<tr><td>F1</td><td>2×P×R/(P+R)</td><td>Balance P and R</td></tr>
+<tr><td>AUC</td><td>Area under ROC</td><td>Ranking; 0.5=random, 1=perfect; threshold-independent</td></tr>
 </table>
-<h3>Code — every variation</h3>
+<h3>Code</h3>
 <ul>
-<li><code>print(classification_report(y_test, y_pred))</code> — precision, recall, F1 per class + accuracy. [Lab03–05]</li>
-<li><code>classification_report(y_test, y_pred, target_names=['Good Buy','Kick'])</code> [Assign1]</li>
-<li><code>accuracy_score(y_test, y_pred)</code> [Lab05,08]</li>
-<li><code>precision_score(y_test, y_pred, pos_label=1)</code> — for imbalanced; <code>zero_division=0</code> if no pred pos. [08]</li>
-<li><code>recall_score</code>, <code>f1_score</code> — same args. [08]</li>
-<li><code>model.score(X_train, y_train)</code> — in-sample accuracy. [Lab04]</li>
-<li><b>AUC</b>: <code>target_test_bin = target_test.map({'Yes':1,'No':0})</code> if string labels. [Lab03]</li>
-<li><code>auc_score = roc_auc_score(y_test, model.predict_proba(X_test)[:, 1])</code> — needs probabilities of positive class. [Lab03,08]</li>
-<li><code>fpr, tpr, thresholds = roc_curve(y_test, model.predict_proba(X_test)[:, 1])</code> — for plotting ROC. [Lab03]</li>
-<li><span class="warn">Imbalanced data</span>: Don't rely on accuracy; use precision, recall, F1. [Lec3,Assign1]</li>
+<li><code>print(classification_report(y_test, y_pred))</code> — P, R, F1 per class + accuracy. <code>classification_report(y_test, y_pred, target_names=['Good Buy','Kick'])</code>.</li>
+<li><code>accuracy_score(y_test, y_pred)</code>. <code>precision_score(y_test, y_pred, pos_label=1, zero_division=0)</code> — same for recall_score, f1_score. <code>model.score(X_train, y_train)</code> — in-sample accuracy.</li>
+<li><b>AUC:</b> Needs numeric y. If labels 'Yes'/'No': <code>y_test_bin = y_test.map({'Yes':1,'No':0})</code>. <code>roc_auc_score(y_test, model.predict_proba(X_test)[:, 1])</code> — <code>[:, 1]</code> = probability of positive class. <code>fpr, tpr, _ = roc_curve(y_test, model.predict_proba(X_test)[:, 1])</code> for plotting ROC.</li>
+<li><span class="warn">Imbalanced data:</span> Don't rely on accuracy; use precision, recall, F1 for minority class.</li>
 </ul>
 </section>
 
 <section>
-<h2>11. VISUALIZATION</h2>
-<h3>Seaborn</h3>
+<h2>10. VISUALIZATION</h2>
 <ul>
-<li><code>sns.histplot(x='Attack', data=df)</code> — numeric distribution. [Lab01,Lab02]</li>
-<li><code>sns.countplot(x='Legendary', data=df)</code> — categorical frequencies. [Lab01]</li>
-<li><code>sns.boxplot(x='Attack', data=df)</code> — spread, outliers (points beyond whiskers). [Lab02]</li>
-<li><code>sns.boxplot(x='Attack', y='Type1', data=df)</code> — numeric by categorical. [Lab02]</li>
-<li><code>sns.boxplot(..., data=df[df['Legendary']==False])</code> — filtered. [Lab02]</li>
-<li><code>sns.scatterplot(x='Attack', y='Defense', data=df)</code> — two numerics. [Lab02]</li>
-<li><code>sns.pairplot(data=df)</code> or <code>data=df[['col1','col2','col3']]</code> — subset if many cols. [Lab02]</li>
-<li><code>snsplot.set_title("...")</code>; <code>snsplot.set_xticklabels(snsplot.get_xticklabels(), rotation=40, ha='right')</code> — rotate labels. [Lab01,Lab02]</li>
-</ul>
-<h3>Pandas</h3>
-<ul>
-<li><code>df.boxplot(column='VehBCost')</code> — single numeric. [Lab02]</li>
-<li><code>df.boxplot(column='VehBCost', by='IsBadBuy')</code> — by group. [Lab02]</li>
-<li><code>df.plot.scatter(x='VehBCost', y='MMRCurrentAuctionAveragePrice')</code> [Lab02]</li>
-</ul>
-<h3>Decision tree plot</h3>
-<ul>
-<li><code>from sklearn.tree import plot_tree</code>; <code>plot_tree(model, feature_names=X_train.columns.tolist(), max_depth=3, filled=True, rounded=True)</code> [08,Assign1]</li>
-<li><code>from sklearn.tree import export_text</code>; <code>export_text(model, feature_names=list(X.columns))</code> [Lab04]</li>
+<li><b>Numeric distribution:</b> <code>sns.histplot(x='Attack', data=df)</code>. <b>Categorical counts:</b> <code>sns.countplot(x='Legendary', data=df)</code>.</li>
+<li><b>Boxplot:</b> <code>sns.boxplot(x='Attack', data=df)</code> — median, quartiles, whiskers; points beyond = outliers. By group: <code>sns.boxplot(x='Attack', y='Type1', data=df)</code>. Filter: <code>data=df[df['Legendary']==False]</code>. Pandas: <code>df.boxplot(column='VehBCost')</code>; <code>df.boxplot(column='VehBCost', by='IsBadBuy')</code>.</li>
+<li><b>Scatter (2 numerics):</b> <code>sns.scatterplot(x='Attack', y='Defense', data=df)</code> or <code>df.plot.scatter(x='VehBCost', y='MMRCurrentAuctionAveragePrice')</code>.</li>
+<li><b>Pair plot:</b> <code>sns.pairplot(data=df)</code> or <code>data=df[['col1','col2','col3']]</code> — subset if many columns.</li>
+<li>Title: <code>snsplot.set_title("...")</code>. Rotate x-labels: <code>snsplot.set_xticklabels(snsplot.get_xticklabels(), rotation=40, ha='right')</code>.</li>
 </ul>
 </section>
 
 <section>
-<h2>12. OVERFITTING &amp; GENERALIZATION</h2>
+<h2>11. OVERFITTING &amp; GENERALIZATION</h2>
 <ul>
-<li><b>Overfitting</b>: High train, low test (memorizes noise). Examples: K=1, very deep DT. [Lec6]</li>
-<li><b>Underfitting</b>: Low train and test (too simple). Examples: large K, max_depth=1. [Lec6]</li>
-<li><b>Generalization</b>: Good on unseen (test) data. [Lec6]</li>
-<li><b>Fix DT</b>: Reduce max_depth. <b>Fix KNN</b>: Increase K. [Lec6]</li>
-<li><b>Bias-variance</b>: Simple = high bias; complex = high variance (overfitting). [Lec6]</li>
-<li><span class="warn">Never tune on test</span>; use validation or cross-validation. [Lec6]</li>
+<li><b>Overfitting:</b> Model fits training data too closely (captures noise); high train accuracy, low test. Examples: K=1 in KNN, very deep DT, unconstrained tree.</li>
+<li><b>Underfitting:</b> Model too simple; low train and low test. Examples: very large K, max_depth=1.</li>
+<li><b>Generalization:</b> Good performance on unseen (test) data. Goal of ML.</li>
+<li><b>Bias–variance:</b> Simple model = high bias, low variance; complex = low bias, high variance (overfitting).</li>
+<li><b>Regularization:</b> DT → limit <code>max_depth</code>; KNN → increase K. <span class="warn">Never tune hyperparameters on test set</span>; use validation or cross-validation.</li>
+<li><b>Typical pattern:</b> K=1 → 100% train, ~55% test; K=4 → ~72% train, ~67% test (better). Deep DT → 100% train, poor test; max_depth=3 → better test.</li>
 </ul>
 </section>
 
 <section>
-<h2>13. WHEN TO CHOOSE WHICH MODEL</h2>
+<h2>12. WHEN TO CHOOSE WHICH MODEL</h2>
 <table>
 <tr><th>Situation</th><th>Model</th><th>Reason</th></tr>
-<tr><td>Interpretability needed</td><td>DT</td><td>Splits visible</td></tr>
-<tr><td>Many categoricals, limited data</td><td>NB</td><td>Fast, sparse OK</td></tr>
-<tr><td>Numeric, distance-based</td><td>KNN</td><td>Must scale first</td></tr>
-<tr><td>Imbalanced, care minority</td><td>All</td><td>Use P, R, F1 not accuracy</td></tr>
-<tr><td>Very high-dim</td><td>NB or DT</td><td>KNN curse of dimensionality</td></tr>
+<tr><td>Need interpretability (business explanation)</td><td>DT</td><td>Splits and rules visible</td></tr>
+<tr><td>Many categoricals, limited data</td><td>NB</td><td>Fast, sparse data OK</td></tr>
+<tr><td>Numeric, distance makes sense</td><td>KNN</td><td>Must scale first</td></tr>
+<tr><td>Imbalanced, care minority class</td><td>All</td><td>Use P, R, F1 not just accuracy</td></tr>
+<tr><td>Very high-dimensional data</td><td>NB or DT</td><td>KNN curse of dimensionality</td></tr>
+<tr><td>Needs scaling?</td><td>DT: No; NB: No; KNN: Yes</td><td></td></tr>
+<tr><td>Overfits when?</td><td>DT: deep; KNN: K=1; NB: rarely</td><td></td></tr>
 </table>
+</section>
+
+<section>
+<h2>13. CRISP-DM (Assignment 1)</h2>
+<ul>
+<li><b>Business Understanding:</b> Problem (e.g. Don't Get Kicked); target (Class: 0=good buy, 1=kick); goal for dealers.</li>
+<li><b>Data Understanding:</b> Variable definitions; shape, dtypes, describe; kick rate; visualizations (distributions, by class).</li>
+<li><b>Data Preparation:</b> Drop cols; handle missing (median numeric, mode categorical); outliers (IQR); one-hot encode.</li>
+<li><b>Modeling:</b> Define X, y; train/test split; fit DecisionTreeClassifier (e.g. max_depth 3, 5, 7, 10, full); compare.</li>
+<li><b>Evaluation:</b> Confusion matrix, classification_report, plot_tree; report test metrics.</li>
+</ul>
 </section>
 
 <section>
@@ -315,7 +268,7 @@
 <pre>import pandas as pd
 import seaborn as sns
 from matplotlib import pyplot as plt
-from google.colab import drive  # Colab only
+from google.colab import drive
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier, plot_tree, export_text
 from sklearn.naive_bayes import GaussianNB, MultinomialNB
@@ -327,18 +280,34 @@ from sklearn.metrics import (confusion_matrix, ConfusionMatrixDisplay,
 </section>
 
 <section>
-<h2>15. TOP PITFALLS</h2>
+<h2>15. TOP PITFALLS &amp; QUICK FIXES</h2>
 <ul>
-<li><span class="warn">fillna('None') on numeric</span> → converts to object. [Lec2]</li>
-<li><span class="warn">Accuracy alone when imbalanced</span> → misleading. [Lec3]</li>
-<li><span class="warn">KNN without scaling</span> → wrong distances. [Lec5]</li>
-<li><span class="warn">Evaluate only on train</span> → no generalization estimate. [Lec6]</li>
-<li><span class="warn">Fit scaler on test</span> → data leakage. [Lab05]</li>
-<li><span class="warn">confusion_matrix</span> — y_true first, y_pred second. [Lab03]</li>
-<li>Categorical cols not encoded → ValueError (string to float). [Lab03]</li>
-<li>predict_proba(X_test)[:, 1] for AUC — positive class column. [Lab03]</li>
+<li><span class="warn">fillna('None') on numeric</span> → converts to object; use median/mode for numeric.</li>
+<li><span class="warn">Accuracy alone when imbalanced</span> → model predicting only majority can have high accuracy, 0 recall for minority.</li>
+<li><span class="warn">KNN without scaling</span> → distance dominated by one feature; scale first.</li>
+<li><span class="warn">Evaluate only on train</span> → overestimates performance; always report test metrics.</li>
+<li><span class="warn">Fit scaler on test</span> → data leakage; fit on train, transform both.</li>
+<li><span class="warn">confusion_matrix(y_pred, y_test)</span> wrong order → use (y_true, y_pred).</li>
+<li><b>ValueError: could not convert string to float</b> → encode categoricals (get_dummies).</li>
+<li><b>FileNotFoundError</b> → wrong path or Drive not mounted. <b>NameError: pd not defined</b> → run import cell first.</li>
+<li>AUC needs probabilities: <code>model.predict_proba(X_test)[:, 1]</code> (positive class column).</li>
 </ul>
 </section>
+
+<section>
+<h2>16. WORKFLOW ORDER (checklist)</h2>
+<ol style="padding-left:14px;">
+<li>Load data → inspect (shape, head, dtypes, isnull).</li>
+<li>Preprocess: missing (fillna), drop cols, one-hot encode. For KNN: scale (fit on train, transform train+test).</li>
+<li>Define X (predictors), y (target).</li>
+<li>Train/test split.</li>
+<li>Fit model on X_train, y_train.</li>
+<li>Predict on X_test → y_pred.</li>
+<li>Evaluate: confusion_matrix(y_test, y_pred), classification_report, AUC if needed.</li>
+</ol>
+</section>
+
+</div>
 
 </body>
 </html>
