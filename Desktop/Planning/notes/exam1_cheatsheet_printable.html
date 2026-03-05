@@ -105,7 +105,7 @@
 <ul>
   <li><b>Idea:</b> Flowchart of yes/no questions on features; leaves = predicted class</li>
   <li><b>Entropy:</b> H = −Σ pᵢ log₂(pᵢ) — measures impurity; 0 = pure, max = mixed</li>
-  <li>Tree picks splits that <b>reduce entropy most</b> (maximize information gain)</li>
+  <li>Tree picks splits that <b>reduce entropy most</b> = maximize <b>information gain</b></li>
   <li><b>max_depth:</b> Limits tree depth; smaller = less overfitting</li>
   <li><b>criterion:</b> <code>'entropy'</code> or <code>'gini'</code></li>
 </ul>
@@ -121,7 +121,8 @@ y_pred = model.predict(X_test)</pre>
   <li><b>Bayes:</b> P(class|features) ∝ P(class) × P(f₁|class) × P(f₂|class) × …</li>
   <li><b>"Naive"</b> = assumes features are <b>independent</b> given class</li>
   <li>Fast; few parameters; no scaling needed</li>
-  <li><b>GaussianNB</b> for continuous; <b>MultinomialNB</b> for counts</li>
+  <li><b>GaussianNB</b> continuous; <b>MultinomialNB</b> counts (Lab 4 car)</li>
+  <li>Laplace smoothing: add small count to avoid P=0 (if covered)</li>
 </ul>
 <pre>from sklearn.naive_bayes import GaussianNB
 model = GaussianNB()
@@ -134,11 +135,13 @@ y_pred = model.predict(X_test)</pre>
 <ul>
   <li><b>Idea:</b> Find K closest training points by distance → <b>majority vote</b></li>
   <li><span class="warn">MUST SCALE</span> features first (distance-based)</li>
+  <li>Lab 5: <b>MinMaxScaler</b> (0–1); or <b>StandardScaler</b> (z-score)</li>
   <li>Small K (e.g. 1) → overfitting; Large K → smoother boundary</li>
   <li>Odd K avoids ties; too large K → underfitting</li>
 </ul>
-<pre>from sklearn.preprocessing import StandardScaler
-scaler = StandardScaler()
+<pre># MinMaxScaler (Lab 5) or StandardScaler
+from sklearn.preprocessing import MinMaxScaler
+scaler = MinMaxScaler()
 X_train_s = scaler.fit_transform(X_train)
 X_test_s = scaler.transform(X_test)  # transform only!
 
@@ -174,10 +177,10 @@ ConfusionMatrixDisplay.from_predictions(
   <li><span class="warn">Imbalanced data → don't rely on accuracy alone; use P, R, F1</span></li>
 </ul>
 <pre>print(classification_report(y_test, y_pred))
-accuracy_score(y_test, y_pred)
-precision_score(y_test, y_pred)
-recall_score(y_test, y_pred)
-f1_score(y_test, y_pred)
+# With labels (Assignment): target_names=['Good Buy','Kick']
+precision_score(y_test, y_pred, zero_division=0)
+recall_score(y_test, y_pred, zero_division=0)
+f1_score(y_test, y_pred, zero_division=0)
 roc_auc_score(y_test, model.predict_proba(X_test)[:,1])</pre>
 </section>
 
@@ -190,7 +193,9 @@ roc_auc_score(y_test, model.predict_proba(X_test)[:,1])</pre>
   <li><b>2 numerics:</b> <code>sns.scatterplot(x='a', y='b', data=df)</code></li>
   <li><b>By group:</b> <code>sns.boxplot(x='num', y='cat', data=df)</code></li>
   <li><b>Pair plot:</b> <code>sns.pairplot(data=df)</code></li>
-  <li><b>Decision tree viz:</b> <code>tree.plot_tree(model, filled=True)</code></li>
+  <li><b>Tree viz:</b> <code>tree.plot_tree(model, feature_names=X.columns, class_names=['A','B'], filled=True)</code></li>
+  <li><b>Tree text:</b> <code>tree.export_text(model, feature_names=list(X.columns))</code></li>
+  <li><b>Pandas box by group:</b> <code>df.boxplot(column='num', by='cat')</code></li>
 </ul>
 </section>
 
@@ -235,14 +240,24 @@ roc_auc_score(y_test, model.predict_proba(X_test)[:,1])</pre>
 import seaborn as sns
 from matplotlib import pyplot as plt
 from sklearn.model_selection import train_test_split
-from sklearn.tree import DecisionTreeClassifier, plot_tree
-from sklearn.naive_bayes import GaussianNB
+from sklearn.tree import DecisionTreeClassifier, plot_tree, export_text
+from sklearn.naive_bayes import GaussianNB, MultinomialNB
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.metrics import (confusion_matrix,
     ConfusionMatrixDisplay, classification_report,
     accuracy_score, precision_score, recall_score,
     f1_score, roc_auc_score, roc_curve)</pre>
+</section>
+
+<section>
+<h2>LAB/ASSIGNMENT EXTRA</h2>
+<ul>
+  <li><b>Colab:</b> <code>from google.colab import drive; drive.mount('/content/drive')</code></li>
+  <li><b>NB:</b> Lab 4 uses <code>MultinomialNB()</code> for car data; GaussianNB for continuous</li>
+  <li><b>Display labels:</b> <code>ConfusionMatrixDisplay(..., display_labels=model.classes_)</code></li>
+  <li><b>Drop non-predictors:</b> e.g. drop ID/date cols before X = df.drop('Target', axis=1)</li>
+</ul>
 </section>
 
 </body>
