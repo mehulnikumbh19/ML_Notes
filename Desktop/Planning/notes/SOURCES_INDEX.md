@@ -52,9 +52,9 @@
 
 | Output | Source |
 |--------|--------|
-| 07_exam1_master_study_guide.md | Lectures 1–6, Labs 1–5, Assignment 1; exam review (add when provided) |
-| 08_python_patterns_and_templates.md | Lab 1–5 + Assignment 1 code patterns |
-| practice/exam1_code_drills.md | Lab workflows + Assignment 1 patterns; code prompts + answer keys |
+| 07_exam1_master_study_guide.md | Lectures 1–6, Labs 1–5, Assignment 1; "When to choose which model" guide; top 10 exam Qs + answers; worked scenarios; exam review (add when provided) |
+| 08_python_patterns_and_templates.md | Lab 1–5 + Assignment 1; ROC/AUC (Lab 3); full end-to-end pipeline |
+| practice/exam1_code_drills.md | Lab 1–5 + Assignment 1; 27 code/conceptual prompts with reasoning |
 
 ---
 

@@ -1,0 +1,114 @@
+--- COLUMNS ---
+State No
+County No
+FOR
+AGAINST
+TOTAL CASTE
+DEPENDENT VARIABLE
+BALLOT TYPE
+POPULATION
+PCI
+MEDIUM FAMILY INCOME
+SIZE OF COUNTY
+POPULATION DENSITY
+PERCENT WHITE
+PERCENT BLACK
+PERCENT OTHER
+PERCENT MALE
+PERCENT FEMALE
+NO OF CHURCHES
+NO OF CHURCH MEMBERS
+PERCENT CHURCH MEMBERS OF POPULATION
+POVERTY LEVEL
+UNEMPLOYMENT RATE
+AGE LESS THAN 18
+AGE24
+AGE44
+AGE64
+AGE OLDER THAN 65
+MSA
+PERCENT MINORITY
+NO OF OLDER
+NO OF YOUNGER
+
+--- DTYPES ---
+State No                                  int64
+County No                                 int64
+FOR                                       int64
+AGAINST                                   int64
+TOTAL CASTE                               int64
+DEPENDENT VARIABLE                        int64
+BALLOT TYPE                               int64
+POPULATION                                int64
+PCI                                       int64
+MEDIUM FAMILY INCOME                      int64
+SIZE OF COUNTY                          float64
+POPULATION DENSITY                      float64
+PERCENT WHITE                           float64
+PERCENT BLACK                           float64
+PERCENT OTHER                           float64
+PERCENT MALE                            float64
+PERCENT FEMALE                          float64
+NO OF CHURCHES                            int64
+NO OF CHURCH MEMBERS                    float64
+PERCENT CHURCH MEMBERS OF POPULATION    float64
+POVERTY LEVEL                           float64
+UNEMPLOYMENT RATE                       float64
+AGE LESS THAN 18                          int64
+AGE24                                     int64
+AGE44                                     int64
+AGE64                                     int64
+AGE OLDER THAN 65                         int64
+MSA                                       int64
+PERCENT MINORITY                        float64
+NO OF OLDER                               int64
+NO OF YOUNGER                             int64
+
+--- TARGET/LEAKAGE VARS ---
+   DEPENDENT VARIABLE    FOR  AGAINST  TOTAL CASTE
+0                   1  42385    22992        65377
+1                   1   2015     1852         3867
+2                   1  51959    48406       100365
+3                   1    957      856         1813
+4                   0    942     1129         2071
+
+--- MISSING ---
+State No                                0
+County No                               0
+FOR                                     0
+AGAINST                                 0
+TOTAL CASTE                             0
+DEPENDENT VARIABLE                      0
+BALLOT TYPE                             0
+POPULATION                              0
+PCI                                     0
+MEDIUM FAMILY INCOME                    0
+SIZE OF COUNTY                          0
+POPULATION DENSITY                      0
+PERCENT WHITE                           0
+PERCENT BLACK                           0
+PERCENT OTHER                           0
+PERCENT MALE                            0
+PERCENT FEMALE                          0
+NO OF CHURCHES                          0
+NO OF CHURCH MEMBERS                    1
+PERCENT CHURCH MEMBERS OF POPULATION    1
+POVERTY LEVEL                           0
+UNEMPLOYMENT RATE                       0
+AGE LESS THAN 18                        0
+AGE24                                   0
+AGE44                                   0
+AGE64                                   0
+AGE OLDER THAN 65                       0
+MSA                                     0
+PERCENT MINORITY                        0
+NO OF OLDER                             0
+NO OF YOUNGER                           0
+
+--- #NULL! ---
+
+
+--- SAMPLE ---
+   State No  County No    FOR  AGAINST  TOTAL CASTE  DEPENDENT VARIABLE  BALLOT TYPE  POPULATION    PCI  MEDIUM FAMILY INCOME  SIZE OF COUNTY  POPULATION DENSITY  PERCENT WHITE  PERCENT BLACK  PERCENT OTHER  PERCENT MALE  PERCENT FEMALE  NO OF CHURCHES  NO OF CHURCH MEMBERS  PERCENT CHURCH MEMBERS OF POPULATION  POVERTY LEVEL  UNEMPLOYMENT RATE  AGE LESS THAN 18  AGE24  AGE44  AGE64  AGE OLDER THAN 65  MSA  PERCENT MINORITY  NO OF OLDER  NO OF YOUNGER
+0         1          1  42385    22992        65377                   1            1      265038  15607                 34618          1192.0              223.29           0.75           0.03           0.22         0.496           0.504             128               25110.0                              0.094340           10.4                5.0             80600  22627  94724  46933              20154    1              0.25        67087         189448
+1         1          2   2015     1852         3867                   1            1       13617  13740                 23114           722.8               18.81           0.59           0.00           0.40         0.491           0.509              22                2427.0                              0.178522           24.8                7.0              4285   1861   4092   2114               1265    2              0.40         3379           8184

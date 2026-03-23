@@ -109,12 +109,18 @@ ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=model.classes_).plot(
 # Classification report
 print(classification_report(y_test, y_pred))
 
-# Single metrics
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+# Single metrics (pos_label for minority class in imbalanced data)
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score
 accuracy_score(y_test, y_pred)
 precision_score(y_test, y_pred, pos_label=1)
 recall_score(y_test, y_pred, pos_label=1)
 f1_score(y_test, y_pred, pos_label=1)
+
+# ROC/AUC (Lab 3) — needs numeric y (0/1) and probabilities
+from sklearn.metrics import roc_curve, roc_auc_score
+y_prob = model.predict_proba(X_test)[:, 1]  # probability of positive class
+auc_score = roc_auc_score(y_test, y_prob)
+# roc_curve for plotting: fpr, tpr, _ = roc_curve(y_test, y_prob)
 ```
 
 ---
@@ -148,3 +154,43 @@ sns.pairplot(data=df[['col1','col2','col3']])
 from sklearn.tree import plot_tree
 plot_tree(model, feature_names=X_train.columns.tolist(), max_depth=3, filled=True, rounded=True)
 ```
+
+---
+
+## 11. Full Pipeline (End-to-End Reference)
+
+```python
+# 1. Load & inspect
+df = pd.read_csv('data.csv')
+df.shape; df.dtypes; df.isnull().sum()
+
+# 2. Preprocess
+df = df.fillna({'cat_col': 'None'})
+df['num_col'] = df['num_col'].fillna(df['num_col'].median())
+df = pd.get_dummies(df, columns=['A','B'], drop_first=True)
+
+# 3. X, y
+X = df.drop(columns=['target'])
+y = df['target']
+
+# 4. Split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+# 5. (KNN only) Scale
+scaler = MinMaxScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+
+# 6. Model
+model = DecisionTreeClassifier(criterion='entropy', max_depth=3, random_state=1)
+model.fit(X_train, y_train)
+
+# 7. Predict & evaluate
+y_pred = model.predict(X_test)
+print(classification_report(y_test, y_pred))
+cm = confusion_matrix(y_test, y_pred)
+```
+
+---
+
+**Sources used:** Lab 1–5 HTML; Assignment 1 (NikumbhMehul.html); Lecture notes 1–6.

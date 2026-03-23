@@ -1,0 +1,53 @@
+
+--- Gaming Ballot Data Description.pdf ---
+GAMING BALLOT DATA DESCRIPTION 
+Data Description 
+The data is organized by “State No” and “County No”. These two fields are record identifiers. 
+The dataset contains 1287 unique records. 
+Variable Characteristics 
+State No Numeric Primary Key Field 
+County No Numeric Primary Key Field 
+FOR Numeric Number of FOR votes 
+AGAINST Numeric Number of AGAINST votes 
+TOTAL CASTE Numeric Number of people voted 
+DEPENDENT VARIABLE Binary Nominal1:Yes; 0:No 
+BALLOT TYPE Binary Nominal1:Gambling; 2:Wagering 
+POPULATION Numeric Population of the county 
+PCI Numeric Per capita income 
+MEDIUM FAMILY INCOME Numeric Medium family income 
+SIZE OF COUNTY Numeric Size of the county (sq. mile) 
+POPULATION DENSITY Numeric Population density (# of people / sq. mile)
+PERCENT WHITE Numeric Racial distribution of the county 
+PERCENT BLACK Numeric " 
+PERCENT OTHER Numeric " 
+PERCENT MALE Numeric Sex distribution of the county
+PERCENT FEMALE Numeric " 
+NO OF CHURCHES Numeric Religious identity of the county 
+NO OF CHURCH MEMBERS Numeric " 
+PERCENT CHURCH MEMBERS OF POPULATIONNumeric " 
+POVERTY LEVEL Numeric Poverty level 
+UNEMPLOYMENT RATE Numeric Unemployment rate 
+AGE LESS THAN 18 Numeric Age distribution of the county 
+AGE24 Numeric "
+AGE44 Numeric "
+AGE64 Numeric "
+AGE OLDER THAN 65 Numeric " 
+MSA Binary NominalMetropolitan statistical area - 1:Yes; 0:No
+Guidelines/hints:  
+9 Be critical about the derived variables (e.g., percent whites, bl acks, other; percent church 
+members of the population, etc.)… Make sure that they are calculated correctly. 
+9 Mak e sure that the data-formats of the variables are consistent with the DM tool you are 
+using (e.g., the nominal and numeric variables should be accurately defined).  
+9 Pick and choose your independent variables from the list. Do not use them all blindly! 
+9 Be specific about the actions taken during the data preprocessing; explain your data 
+preprocessing actions in a step-by-step fashion. Summarize the final status of the data. 
+9 Sh ow the screen shots for the final data set (after the pre-processing and removal of 
+unused variables).  
+9 Show a screen shot of the complete classification model (Modeling Process in KNIME) 
+- - -
+
+--- IS670-Assignment2-2.pdf ---
+IS 670 – Machine Learning for Business Analytics- Assignment 2 Assignment Name: Voting Behavior  Purpose: This assignment will help you understand how machine learning (ML) models such as Decision Tree (DT), Naïve Bayes (NB), and K-Nearest Neighbor (KNN), are used to solve real-world business problems such as predicting voting behavior. You’ll explore a dataset, build classification models, and evaluate their performance. This foundational project builds your skills for future assignments and gives you hands-on experience relevant to careers in data science, analytics, and business intelligence. Task: 1. Setup: o Open Google Colab and prepare your environment. o Download the dataset Gaming Ballot Dataset.xls from Canvas and upload it into your drive and notebook. o Use code cells for code only and add your explanations in text cells. o This should look like a project report, so include sections and subsections as needed in an organized way. o A Gaming Ballot Data Description.pdf file is provided with a short definition of variables. o To explore more, search online to understand the meaning of each variable/feature (columns) in the dataset, if needed.  
+2. CRISP-DM Process (the sections in your report): o Business Understanding:  § Briefly describe the context of voting behavior in general and how the results can impact related industries; define the voting behavior problem based on your understanding. § Explain which industries can benefit from having a predictive model and how? o Data Understanding:  § What is each variable’s definition? § How do these variables relate to the context of the problem in hand? § Explore the dataset using summary statistics and charts (include at least 10 charts that are interesting to you). Consider variables separately and in relation to each other. After each chart/statistics explain your findings or insights about the variable(s). § What is your target variable? What is its type? 
+§ Do you think other existing variables can help build a meaningful and predictive classification model for this target variable? Can we use all of them as predictors? Note: other than highly correlated variables and IDs, be mindful of cheating variables and data leakage. Data leakage happens when information that would not be available at prediction time “leaks” into the model. o Data Preparation: § Fix the variables’ types (if needed). § Explain and handle missing values, outliers, highly correlated variables, and cheating variables (data leakage). § Comment on whether the data is balanced. If not, explain what techniques could be used to fix it (you don’t have to fix it in this assignment). § Perform dummy coding for the categorical variables. § Come up with at least two new features based on the existing feature set. Explain why you think these features can help with the predictive task. o Modeling: § Build a decision tree classifier. 1. Identify and explain key variables influencing the prediction. 2. Examine the models’ performance on the training dataset. Identify which max_depth leads to underfitting, which leads to overfitting, and which provides the best generalization to the test data. (max_depth and criterion are hyperparameters that can be tuned to improve the model’s performance). 3. Achieve the best model’s predictive performance by changing the depth and criterion (tune the model).  § Try KNN. 1. Examine the models’ performance on the training dataset. Identify which K leads to underfitting, which leads to overfitting, and which provides the best generalization to the test data. (K, the number of neighbors) is a hyperparameter that can be tuned to improve the model’s performance). 2. Find the model with the best predictive performance by changing K.  § Build an NB model. Can we improve this model’s performance? Does it have any hyperparameters?   § In one table, compare the best performing DT, KNN, and NB with respect to model’s performance metrics: accuracy, precision, recall, F1-score, confusion matrix. How good are these models? Choose your overall best performing model. § In one chart, plot the ROC curve of the best-performing DT, KNN, and NB. o Evaluation: § Explain how your overall best model can be used to address the problem we started from: voting behavior? 
+§ Based on the DT model, which variables seem more important? Explain whether they are relevant. § For the best-performing DT, NB, and KNN models, perform a sensitivity analysis (Leave-One-Feature-Out) process to see the impact of variables on the models’ performance (take AUC as your base). § Create a table that shows the importance of each variable across all three models. Include an additional column with the average importance across the models, and sort the table based on this average column. § Discuss your findings about the features and models. Also, discuss whether your models are practical.  
