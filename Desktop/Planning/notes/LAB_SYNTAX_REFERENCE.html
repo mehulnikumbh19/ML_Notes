@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>IS 670 Lab Syntax Reference</title>
+<style>
+body { font-size: 11pt; font-family: Arial, sans-serif; line-height: 1.5; margin: 12px; color: #000; max-width: 720px; }
+p { margin: 0 0 6px 0; }
+.sect { margin-top: 14px; font-weight: bold; }
+@media print { body { margin: 10px; } }
+</style>
+</head>
+<body>
+
+<p class="sect">IS 670 — Lab Syntax Reference (Labs 1–5)</p>
+
+<p class="sect">1. Python & Colab</p>
+<p>print("text") — prints to output.</p>
+<p>from google.colab import drive — then drive.mount('/content/drive') mounts Drive at /content/drive.</p>
+
+<p class="sect">2. Imports</p>
+<p>import pandas as pd — import seaborn as sns — from matplotlib import pyplot as plt</p>
+<p>from sklearn.model_selection import train_test_split</p>
+<p>from sklearn.tree import DecisionTreeClassifier, plot_tree, export_text</p>
+<p>from sklearn.naive_bayes import MultinomialNB, GaussianNB — from sklearn.neighbors import KNeighborsClassifier — from sklearn.preprocessing import MinMaxScaler</p>
+<p>from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay, classification_report, accuracy_score, precision_score, recall_score, f1_score, roc_curve, roc_auc_score</p>
+
+<p class="sect">3. Pandas load & inspect</p>
+<p>pd.read_csv('path') — reads CSV. df.shape — (rows, cols). df.head(), df.head(n), df.tail() — first/last rows.</p>
+<p>df.columns — df.dtypes — df.describe() — column names, types, numeric summary.</p>
+
+<p class="sect">4. Pandas select</p>
+<p>df['Col'] — single column (Series). df[['C1','C2']] — multiple columns (DataFrame). df[df['col']==value] — filter rows.</p>
+
+<p class="sect">5. Pandas missing</p>
+<p>df.isnull() — df.isnull().sum() — mask and count NaN.</p>
+<p>df.fillna('None') or df=df.fillna('None') — categorical. df['col'].fillna(df['col'].median()) or .mean() or .mode()[0] — numeric/categorical. df.dropna() — drop rows with NaN.</p>
+
+<p class="sect">6. Pandas encode & drop</p>
+<p>pd.get_dummies(df, columns=[...], drop_first=True, dtype=int) — one-hot.</p>
+<p>df.drop(['Col'], axis=1) or df.drop(columns=['C1','C2'], errors='ignore').</p>
+
+<p class="sect">7. Target & predictors</p>
+<p>target=df['IsBadBuy'] — predictors=df.drop(['IsBadBuy'], axis=1) or drop(columns=[...]). y_test.map({'Yes':1,'No':0}) for ROC/AUC.</p>
+
+<p class="sect">8. Seaborn</p>
+<p>sns.histplot(x='Col', data=df) — histogram. sns.countplot(x='Col', data=df) — counts.</p>
+<p>sns.boxplot(x='Col', data=df) or (x='Num', y='Cat', data=df) or data=df[df['col']==val].</p>
+<p>sns.scatterplot(x='C1', y='C2', data=df) — sns.pairplot(data=df) or data=df[['A','B','C']].</p>
+<p>snsplot.set_title("...") — snsplot.set_xticklabels(snsplot.get_xticklabels(), rotation=40, ha="right").</p>
+
+<p class="sect">9. Pandas plots</p>
+<p>df.boxplot(column='Col') — df.boxplot(column='Num', by='Cat') — df.plot.scatter(x='C1', y='C2').</p>
+
+<p class="sect">10. Train/test split</p>
+<p>train_test_split(X, y, test_size=0.3, random_state=0) — 70/30. X_train, X_test, y_train, y_test = train_test_split(...). stratify=y keeps class ratio.</p>
+
+<p class="sect">11. Scaling</p>
+<p>MinMaxScaler() — maps to [0,1]. scaler.fit_transform(X_train) — fit and transform train. scaler.transform(X_test) — transform test only (no fit). pd.DataFrame(scaler.fit_transform(X)); X_scaled.columns=X.columns.</p>
+
+<p class="sect">12. Decision tree</p>
+<p>DecisionTreeClassifier(criterion='entropy', max_depth=2, random_state=1) or criterion='gini', or max_depth=3, or () unconstrained.</p>
+<p>model.fit(X_train, y_train) — model.predict(X_test) — model.predict_proba(X_test)[:,1] positive class — model.classes_ — model.score(X,y).</p>
+
+<p class="sect">13. Naive Bayes</p>
+<p>MultinomialNB() — discrete/count non-negative. GaussianNB() — continuous. model.fit — model.predict.</p>
+
+<p class="sect">14. KNN</p>
+<p>KNeighborsClassifier(n_neighbors=1) overfits — n_neighbors=4 or 5 better. Fit on scaled data.</p>
+
+<p class="sect">15. Metrics</p>
+<p>confusion_matrix(y_true, y_pred) — order actual then predicted. ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=model.classes_).plot() or .from_predictions(y_test, y_pred).</p>
+<p>classification_report(y_test, y_pred) or target_names=['A','B']. accuracy_score, precision_score, recall_score, f1_score(y_test, y_pred, pos_label=1, zero_division=0).</p>
+<p>roc_curve(y_true, y_prob) returns fpr, tpr — roc_auc_score(y_test, y_prob) y must be numeric 0/1.</p>
+
+<p class="sect">16. Tree viz</p>
+<p>plot_tree(model, feature_names=X_train.columns.tolist(), max_depth=3, filled=True, rounded=True) — export_text(model, feature_names=list(X.columns)).</p>
+
+<p class="sect">17. Matplotlib</p>
+<p>plt.plot(fpr, tpr, label=f"AUC={auc_score:.3f}") — plt.legend() — plt.show().</p>
+
+<p class="sect">18. Patterns</p>
+<p>Filter then plot: sns.histplot(x='Revenue', data=df[df['Status']=='Active']). Scale then split. AUC: map labels 0/1, y_prob=model.predict_proba(X_test)[:,1], roc_auc_score(y_test_bin, y_prob).</p>
+
+<p>Lab 1–5 only. Lab 6 not in materials.</p>
+
+</body>
+</html>
