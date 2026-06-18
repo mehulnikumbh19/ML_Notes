@@ -1,0 +1,8 @@
+# boto3 lets Python talk to AWS services such as CloudTrail and S3.
+boto3
+
+# pandas helps turn many log events into tables that are easier to inspect.
+pandas
+
+# scikit-learn provides the IsolationForest model we will use later for anomaly detection.
+scikit-learn
